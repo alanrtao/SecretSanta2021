@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{c69d1a0f-f147-4536-a765-805af399794c}">
+		<property name="assetPath">
+			<value>530415__klankbeeld__forest-summer-roond-020-200619-0186.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>54.92852083333333</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{ace9dcdd-c518-45b3-91cc-9c2e745270ab}</destination>
+		</relationship>
+	</object>
+</objects>

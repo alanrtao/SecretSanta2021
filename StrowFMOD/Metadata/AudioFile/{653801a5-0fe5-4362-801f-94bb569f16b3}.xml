@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{653801a5-0fe5-4362-801f-94bb569f16b3}">
+		<property name="assetPath">
+			<value>267311__viznoman__river.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>70.774666666666661</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{ace9dcdd-c518-45b3-91cc-9c2e745270ab}</destination>
+		</relationship>
+	</object>
+</objects>
