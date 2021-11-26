@@ -54,13 +54,14 @@ public class Board : MonoBehaviour
     // convert world absolute position to xy position on the board
     public Vector2 GetXY(Vector3 worldpos)
     {
-        return Vector2.zero;
+        Vector3 localXYZ = transform.worldToLocalMatrix.MultiplyPoint(worldpos);
+        return new Vector2(localXYZ.x, localXYZ.z); ;
     }
 
     // convert world absolute position to uv position on the board, for uv from [-1, 1]
     public Vector2 GetUV(Vector3 worldpos)
     {
-        return GetXY(worldpos);
+        return GetXY(worldpos) / 5;
     }
 
     // convert worldpos to uv position on the board
