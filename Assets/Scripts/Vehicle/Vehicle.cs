@@ -32,7 +32,7 @@ public class Vehicle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mouse_marker.position = Board.GetMouseXYZ();
+        mouse_marker.position = Board.MouseXYZ;
     }
 
     private void FixedUpdate()

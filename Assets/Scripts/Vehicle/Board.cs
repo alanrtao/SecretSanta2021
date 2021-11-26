@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
+    public Vector3 MouseXYZ
+    {
+        get { return _mouseXYZ; }
+    }
+
+    public Vector2 MouseXY
+    {
+        get { return _mouseXY; }
+    }
+
+    private Vector3 _mouseXYZ;
+    private Vector2 _mouseXY;
+
+    private Plane plane;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,26 +28,27 @@ public class Board : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        plane = new Plane(transform.up, transform.position);
+        UpdateMouse();
     }
 
-    public Vector3 GetMouseXYZ()
+    private void FixedUpdate()
     {
-        // for source s, direction r, time t, plane through p0 with normal n
-        // let line l = s + rt
-        // let plane = { (p-p0) dot n = 0 }
-        // (s+tr-p0) dot n = 0
-        // t = (p0 - s) dot n / r dot n
+    }
 
+    private void UpdateMouse()
+    {
         Ray mRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Vector3 normal = transform.up;
 
-        float calibration = 1000; // scale up to make things more accurate
+        Debug.DrawRay(mRay.origin, mRay.direction * 100000, Color.yellow);
 
-        // solve for t, and then use that to deduce mouse position on the plane
-        float t = Vector3.Dot(calibration * (transform.position - mRay.origin), normal) / Vector3.Dot(calibration * mRay.direction, normal);
-
-        return mRay.origin + mRay.direction * t;
+        float d;
+        if (plane.Raycast(mRay, out d))
+        {
+            _mouseXYZ = mRay.origin + mRay.direction * d;
+            Vector3 localXYZ = transform.worldToLocalMatrix.MultiplyPoint(_mouseXYZ);
+            _mouseXY = new Vector2(localXYZ.x, localXYZ.z);
+        }
     }
 
     // convert world absolute position to xy position on the board

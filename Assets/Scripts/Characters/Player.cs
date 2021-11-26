@@ -7,6 +7,8 @@ public class Player : MassedMonoBehaviour
     [Range(0, 100)]
     public float gravity;
 
+    public Vector2 target;
+
     public static Player instance
     {
         get { return _instance; }
@@ -36,6 +38,10 @@ public class Player : MassedMonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // rClick or rDrag
+        if(Input.GetMouseButton(1) || Input.GetMouseButtonDown(1))
+        {
+            target = Vehicle.Instance.Board.MouseXY;
+        }   
     }
 }
