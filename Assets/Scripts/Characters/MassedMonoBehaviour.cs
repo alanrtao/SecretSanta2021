@@ -5,7 +5,7 @@ using UnityEngine;
 public class MassedMonoBehaviour : MonoBehaviour
 {
     // position of the object on the map
-    Vector2 map_pos;
+    protected Vector2 map_pos;
 
     // 
 

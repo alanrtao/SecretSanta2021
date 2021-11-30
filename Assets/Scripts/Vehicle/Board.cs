@@ -19,10 +19,14 @@ public class Board : MonoBehaviour
 
     private Plane plane;
 
+    [SerializeField] private float w, h;
+    [SerializeField] private Transform display; // the board to display on screen
+
+    public Vector2 size { get { return new Vector2(w, h); } }
+
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -30,6 +34,8 @@ public class Board : MonoBehaviour
     {
         plane = new Plane(transform.up, transform.position);
         UpdateMouse();
+
+        display.localScale = new Vector3(w / 10, 1, h / 10);
     }
 
     private void FixedUpdate()
@@ -48,6 +54,22 @@ public class Board : MonoBehaviour
             _mouseXYZ = mRay.origin + mRay.direction * d;
             Vector3 localXYZ = transform.worldToLocalMatrix.MultiplyPoint(_mouseXYZ);
             _mouseXY = new Vector2(localXYZ.x, localXYZ.z);
+            if (Mathf.Abs(_mouseXY.x) > w/2f)
+            {
+                float ratio = (w / 2f) / Mathf.Abs(_mouseXY.x);
+                _mouseXY *= ratio;
+            }
+            if (Mathf.Abs(_mouseXY.y) > h / 2f)
+            {
+                float ratio = (h / 2f) / Mathf.Abs(_mouseXY.y);
+                _mouseXY *= ratio;
+            }
+            _mouseXYZ = transform.localToWorldMatrix.MultiplyPoint(new Vector3(_mouseXY.x, 0, _mouseXY.y));
+
+            Debug.DrawLine(transform.localToWorldMatrix.MultiplyPoint(new Vector3(-w / 2f, 0, h / 2f)), transform.localToWorldMatrix.MultiplyPoint(new Vector3(w / 2f, 0, h / 2f)));
+            Debug.DrawLine(transform.localToWorldMatrix.MultiplyPoint(new Vector3(-w / 2f, 0, -h / 2f)), transform.localToWorldMatrix.MultiplyPoint(new Vector3(-w / 2f, 0, h / 2f)));
+            Debug.DrawLine(transform.localToWorldMatrix.MultiplyPoint(new Vector3(w / 2f, 0, -h / 2f)), transform.localToWorldMatrix.MultiplyPoint(new Vector3(w / 2f, 0, h / 2f)));
+            Debug.DrawLine(transform.localToWorldMatrix.MultiplyPoint(new Vector3(-w / 2f, 0, -h / 2f)), transform.localToWorldMatrix.MultiplyPoint(new Vector3(w / 2f, 0, -h / 2f)));
         }
     }
 
@@ -61,7 +83,19 @@ public class Board : MonoBehaviour
     // convert world absolute position to uv position on the board, for uv from [-1, 1]
     public Vector2 GetUV(Vector3 worldpos)
     {
+
         return GetXY(worldpos) / 5;
+    }
+
+    public Vector3 UVToWorld(Vector2 uv)
+    {
+        return transform.position + transform.forward * uv.y * transform.localScale.z + transform.right * uv.x * transform.localScale.x;
+    }
+
+    public Vector3 MapXYToWorld(Vector2 map_pos)
+    {
+        Vector2 uv = new Vector2(map_pos.x / transform.localScale.x, map_pos.y / transform.localScale.y);
+        return UVToWorld(uv);
     }
 
     // convert worldpos to uv position on the board

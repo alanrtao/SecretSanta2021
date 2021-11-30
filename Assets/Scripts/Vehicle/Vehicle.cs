@@ -16,7 +16,7 @@ public class Vehicle : MonoBehaviour
     private static Vehicle _instance;
 
     // marker for the mouse on the plane of the board, purely for marking purpose
-    public Transform mouse_marker;
+    public MouseIndicator mouse_marker;
 
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class Vehicle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mouse_marker.position = Board.MouseXYZ;
+        
     }
 
     private void FixedUpdate()
