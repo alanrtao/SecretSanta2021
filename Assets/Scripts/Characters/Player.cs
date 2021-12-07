@@ -41,7 +41,8 @@ public class Player : MassedMonoBehaviour
         float step = Mathf.Min(tDist, dt * velocity);
         map_pos += (target - map_pos).normalized * step;
 
-        transform.position = Vehicle.Instance.Board.MapXYToWorld(map_pos) + transform.up * bc.size.y / 2;
+        transform.localPosition = new Vector3(map_pos.x, bc.size.y / 2, map_pos.y);
+        // transform.position = Vehicle.Instance.Board.MapXYToWorld(map_pos) + Vehicle.Instance.transform.up * bc.size.y / 2;
 
 // print(map_pos + " ~ " + Vehicle.Instance.Board.GetXY(transform.position).ToString("F3") + " -> " + target.ToString("F3"));
     }
