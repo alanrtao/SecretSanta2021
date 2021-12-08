@@ -5708,7 +5708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -6560,6 +6560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Globe: {fileID: 646062478}
+  Sun: {fileID: 733051345}
   TreePrototype: {fileID: 6554133384034089862, guid: 878c3deb8ccab2243a0a82bd24924bd8, type: 3}
 --- !u!4 &1499727905
 Transform:
@@ -6846,6 +6847,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a473f5a3d819bfe4f82559cd9da06378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  filter:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0.9433962, g: 0.7145821, b: 0.4494482, a: 0}
+    key3: {r: 0.61960787, g: 0.76109475, b: 1, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 26600
+    ctime2: 50693
+    ctime3: 56090
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 4
+    m_NumAlphaKeys: 2
   vc_smoothness: 0.737
   cNear: 5
   cFar: 30

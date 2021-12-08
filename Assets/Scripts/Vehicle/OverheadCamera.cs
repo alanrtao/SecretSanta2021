@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class OverheadCamera : MonoBehaviour
 {
 
     private CinemachineVirtualCamera vc;
+    private Cinemachine.PostFX.CinemachineVolumeSettings cvs; // post processing control
+    [SerializeField] private Gradient filter;
 
     private float vc_offset_eq; // equilibrium camera distance
     private float vc_offset_temp; // current camera distance
@@ -33,16 +37,38 @@ public class OverheadCamera : MonoBehaviour
     void Start()
     {
         vc = GetComponent<CinemachineVirtualCamera>();
+        cvs = GetComponent<Cinemachine.PostFX.CinemachineVolumeSettings>();
+
         Cinemachine3rdPersonFollow vcFollow = vc.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
         vc_offset_eq = vcFollow.ShoulderOffset.magnitude;
         vc_offset_temp = vc_offset_eq;
         vc_to = -vcFollow.ShoulderOffset.normalized;
+
+        rot_eq = transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
         Cinemachine3rdPersonFollow vcFollow = vc.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+
+        // tint based on location: -1 (complete back side) is midnight, 1 (complete sun) is noon
+
+        float t = Vector3.Dot(
+            Manager.Instance.Globe.transform.worldToLocalMatrix.MultiplyPoint(
+                Manager.Instance.Sun.transform.position
+                ).normalized,
+            transform.position.normalized);
+        t = (1 - t) / 2;
+
+        ColorAdjustments col_adj;
+        cvs.m_Profile.TryGet(out col_adj);
+        if (col_adj != null)
+        {
+            col_adj.colorFilter.value = filter.Evaluate(t);
+        }
+
+        // coladj.parameters[2] = new UnityEngine.Rendering.ColorParameter(filter.Evaluate(t));
 
         // zooming
         float sw = Input.GetAxis("Mouse ScrollWheel");

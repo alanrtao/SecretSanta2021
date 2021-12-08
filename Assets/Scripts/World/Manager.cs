@@ -14,6 +14,8 @@ public class Manager : MonoBehaviour
 
     public Globe Globe;
 
+    public Sun Sun;
+
     public GameObject TreePrototype;
 
     private void Awake()
