@@ -5277,7 +5277,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 367167383}
-  m_LocalRotation: {x: -0.31660345, y: 0.31877226, z: -0.21004353, w: 0.868348}
+  m_LocalRotation: {x: -0.31660345, y: 0.31877232, z: -0.21004353, w: 0.868348}
   m_LocalPosition: {x: -70.56787, y: -42.74823, z: -26.00309}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -5419,7 +5419,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 646062473}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5982,7 +5982,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1380661677}
-  m_LocalRotation: {x: -0.31660345, y: 0.31877232, z: -0.21004353, w: 0.868348}
+  m_LocalRotation: {x: -0.31660345, y: 0.31877226, z: -0.21004353, w: 0.868348}
   m_LocalPosition: {x: -70.56787, y: -42.74823, z: -26.00309}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -6153,7 +6153,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1444288150}
-  m_LocalRotation: {x: -0.31660345, y: 0.31877226, z: -0.21004353, w: 0.868348}
+  m_LocalRotation: {x: -0.31660345, y: 0.31877232, z: -0.21004353, w: 0.868348}
   m_LocalPosition: {x: -70.56787, y: -42.74823, z: -26.00309}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -6190,7 +6190,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4411fe1d8b40cc40ac1491077210980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Radius: 300
+  Radius: 100
+  SpawnCalls: 10000
+  SpawnRate: 0.218
   TreePrototype: {fileID: 6554133384034089862, guid: 878c3deb8ccab2243a0a82bd24924bd8, type: 3}
   Globe: {fileID: 646062477}
   vehicle: {fileID: 0}

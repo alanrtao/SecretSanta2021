@@ -12,6 +12,9 @@ public class Manager : MonoBehaviour
     private static Manager _instance;
 
     public float Radius;
+    public int SpawnCalls;
+    [Range(0, 1)]
+    public float SpawnRate;
 
     List<MapPoint> map;
 
@@ -45,7 +48,7 @@ public class Manager : MonoBehaviour
     // generates more-or-less equidistant points on a sphere
     void GenerateMap()
     {
-        int n = 5000;
+        int n = SpawnCalls;
 
         float lonstep = 720f / (Mathf.Sqrt(5) + 1);
         float polegap = .7012f;
@@ -54,7 +57,7 @@ public class Manager : MonoBehaviour
 
         for (int i = 0; i < n; i++)
         {
-            if (Random.value < 0.5f) continue;
+            if (Random.value > SpawnRate) continue;
 
             float lon = lonstep * i - 360 * Mathf.Round((lonstep * i) / 360f);
             float lat = Mathf.Asin(latstart + i * latstep);

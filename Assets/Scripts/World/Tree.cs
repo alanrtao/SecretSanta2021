@@ -9,7 +9,8 @@ public class Tree : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        MeshFilter mf = GetComponent<MeshFilter>();
+        mf.sharedMesh = all_trees.GetRandom();
     }
 
     // Update is called once per frame

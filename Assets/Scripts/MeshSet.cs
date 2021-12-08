@@ -17,4 +17,9 @@ public class MeshSet : ScriptableObject
     {
         
     }
+
+    public Mesh GetRandom()
+    {
+        return content[Mathf.FloorToInt(Random.value * content.Length)];
+    }
 }
