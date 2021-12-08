@@ -29,7 +29,9 @@ public class Player : MassedMonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        bc = GetComponent<BoxCollider>(); ;
+        bc = GetComponent<BoxCollider>();
+
+        Vehicle.Instance.Board.masses.Add(this);
     }
 
     private void FixedUpdate()

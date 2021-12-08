@@ -25,6 +25,9 @@ public class OverheadCamera : MonoBehaviour
     public float sensitivity;
 
     private Vector3 vc_to; // normal vector pointing from vc to lookAt
+    [Range(0, 1), SerializeField] private float cam_smoothness;
+    Vector3 shoulder_offset_eq = Vector3.zero;
+    Quaternion rot_eq = Quaternion.identity;
 
     // Start is called before the first frame update
     void Start()
@@ -61,7 +64,9 @@ public class OverheadCamera : MonoBehaviour
             Quaternion rotZ = Quaternion.AngleAxis(mouse.x, Vector3.up);
             Quaternion rotH = Quaternion.AngleAxis(mouse.y, Vector3.Cross(Vector3.up, so));
 
-            vcFollow.ShoulderOffset = rotZ * rotH * so;
+            Vector3 rawSO = rotZ * rotH * so;
+            rawSO.y = Mathf.Clamp(rawSO.y, 0.5f, float.PositiveInfinity); // prevent panty shot
+            vcFollow.ShoulderOffset = rawSO;
         } else
         {
             // 

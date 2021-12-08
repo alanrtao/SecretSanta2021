@@ -5,12 +5,11 @@ using UnityEngine;
 public class Vehicle : MonoBehaviour
 {
 
-    public float v_tan, v_norm;
+    public float v_tan, v_norm, dAng_dt;
+    public float pitch_lerp, roll_lerp; // interpolation from linear (equally sensitive) to pow5 (sensitive only at edge)
 
     [SerializeField] private Board _board;
     public Board Board { get { return _board; } }
-
-    public float altitude;
 
     public static Vehicle Instance { get { return _instance; } }
     private static Vehicle _instance;
@@ -39,13 +38,13 @@ public class Vehicle : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (first_frame)
+        if (first_frame && Manager.Instance != null)
         {
             first_frame = false;
-            transform.position = Manager.Instance.Radius * transform.position.normalized;
-            Vector3 ax = Vector3.Cross(transform.up, transform.position.normalized);
-            Board.transform.rotation = Quaternion.AngleAxis(
-                Vector3.SignedAngle(transform.position.normalized, transform.up, ax),
+            transform.position = (Manager.Instance.Globe.Radius + 20f) * transform.position.normalized;
+            Vector3 ax = Vector3.Cross(Vector3.up, transform.position.normalized);
+            transform.rotation = Quaternion.AngleAxis(
+                Vector3.SignedAngle(Vector3.up, transform.position.normalized, ax),
                 ax
                 );
         }
@@ -60,8 +59,6 @@ public class Vehicle : MonoBehaviour
         Vector3 fR = Vector3.Dot(radial, f) * radial;
         Vector3 fT = f - fR;
 
-        Vector3 boardRot = _board.transform.localRotation.eulerAngles;
-
         // positional information
         float r = transform.position.magnitude;
 
@@ -75,9 +72,18 @@ public class Vehicle : MonoBehaviour
         transform.rotation = rot * transform.rotation;
 
         // climb after tangential movement
-        float climb = Mathf.Sin(boardRot.x);
-        transform.position += transform.position.normalized * v_norm * climb;
+        float climb = -Mathf.Lerp(Board.mass_distrib.y, Mathf.Pow(Board.mass_distrib.y, 5), pitch_lerp);
+        transform.position += 
+            radial * v_norm * 
+            (transform.position.magnitude > Manager.Instance.Globe.Radius + 5 ? climb : Mathf.Max(0, climb)) // when too low, only climb
+            * dt;
 
-        altitude = r;
+        // turning by roll
+        float roll = Mathf.Lerp(Board.mass_distrib.x, Mathf.Pow(Board.mass_distrib.x, 5), roll_lerp);
+        Quaternion turn = Quaternion.AngleAxis(
+            dAng_dt * dt * roll,
+            radial
+            );
+        transform.rotation = turn * transform.rotation;
     }
 }

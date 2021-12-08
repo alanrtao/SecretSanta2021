@@ -21,8 +21,21 @@ public class Board : MonoBehaviour
 
     [SerializeField] private float w, h;
     [SerializeField] private Transform display; // the board to display on screen
+    public Camera raycastCamera;
 
     public Vector2 size { get { return new Vector2(w, h); } }
+
+    public List<MassedMonoBehaviour> masses = new List<MassedMonoBehaviour>();
+
+    Vector2 center_of_mass_eq = Vector2.zero;
+    Vector2 center_of_mass = Vector2.zero;
+
+    public Vector2 mass_distrib { get { return center_of_mass; } }
+    
+    [Range(0, 1), SerializeField] private float com_smoothness; // interpolation factor
+
+    [Range(0, 90), SerializeField] private float pitch_ext;
+    [Range(0, 90), SerializeField] private float roll_ext;
 
     // Start is called before the first frame update
     void Start()
@@ -40,11 +53,26 @@ public class Board : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Vector3 c = Vector3.zero;
+        foreach (MassedMonoBehaviour m in masses)
+        {
+            c += m.weight_contribution;
+        }
+        center_of_mass_eq.x = c.x / (w / 2);
+        center_of_mass_eq.y = c.z / (h / 2);
+        
+        transform.localRotation = Quaternion.Euler(
+            pitch_ext * center_of_mass.y, // pitch
+            0, // yaw
+            - roll_ext * center_of_mass.x // roll
+            );
+
+        center_of_mass = CustomMaths.Lerp(center_of_mass, center_of_mass_eq, com_smoothness);
     }
 
     private void UpdateMouse()
     {
-        Ray mRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray mRay = raycastCamera.ViewportPointToRay(Camera.main.ScreenToViewportPoint(Input.mousePosition));
 
         Debug.DrawRay(mRay.origin, mRay.direction * 100000, Color.yellow);
 
@@ -54,7 +82,7 @@ public class Board : MonoBehaviour
             _mouseXYZ = mRay.origin + mRay.direction * d;
             Vector3 localXYZ = transform.worldToLocalMatrix.MultiplyPoint(_mouseXYZ);
             _mouseXY = new Vector2(localXYZ.x, localXYZ.z);
-            if (Mathf.Abs(_mouseXY.x) > w/2f)
+            if (Mathf.Abs(_mouseXY.x) > w / 2f)
             {
                 float ratio = (w / 2f) / Mathf.Abs(_mouseXY.x);
                 _mouseXY *= ratio;

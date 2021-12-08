@@ -9,9 +9,9 @@ public class MassedMonoBehaviour : MonoBehaviour
 
     // 
 
-    public float weight_contribution
+    public Vector3 weight_contribution
     {
-        get { return Vehicle.Instance.Board.GetRadialNormalized(rb.position)*(rb == null ? 0 : rb.mass); }
+        get { return (rb == null ? Vector3.zero : rb.mass * transform.localPosition); }
     }
 
     protected Rigidbody rb;

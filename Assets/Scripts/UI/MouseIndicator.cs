@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MouseIndicator : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem ps;
+    ParticleSystem ps;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,8 +13,10 @@ public class MouseIndicator : MonoBehaviour
 
     public void Emit()
     {
+
+        ps = GetComponent<ParticleSystem>();
         transform.position = Vehicle.Instance.Board.MouseXYZ;
-        // ps.Play();
+        ps.Play();
     }
 
     void Update()
