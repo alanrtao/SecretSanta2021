@@ -20,22 +20,22 @@ public class Manager : MonoBehaviour
 
     public GameObject TreePrototype;
     public Transform Globe;
-    public Vehicle vehicle;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        _instance = this;
 
         // generate mesh
         map = new List<MapPoint>();
 
         GenerateMap();
 
-        Globe.localScale = Vector3.one * Radius * 2;
-
-        vehicle = Vehicle.Instance;
-        vehicle.transform.position = vehicle.transform.position.normalized * (Radius + 5);
+        Globe.localScale = Vector3.one * Radius;
     }
 
     // Update is called once per frame

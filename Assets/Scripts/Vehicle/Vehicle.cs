@@ -23,10 +23,12 @@ public class Vehicle : MonoBehaviour
         _instance = this;
     }
 
+    bool first_frame = true;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        first_frame = true;
     }
 
     // Update is called once per frame
@@ -37,6 +39,17 @@ public class Vehicle : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (first_frame)
+        {
+            first_frame = false;
+            transform.position = Manager.Instance.Radius * transform.position.normalized;
+            Vector3 ax = Vector3.Cross(transform.up, transform.position.normalized);
+            Board.transform.rotation = Quaternion.AngleAxis(
+                Vector3.SignedAngle(transform.position.normalized, transform.up, ax),
+                ax
+                );
+        }
+
         float dt = Time.fixedDeltaTime;
 
         // distribution information
