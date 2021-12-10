@@ -14,6 +14,8 @@ public class Globe : MonoBehaviour
 
     List<MapPoint> map;
 
+    public Collider bound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,8 @@ public class Globe : MonoBehaviour
         map = new List<MapPoint>();
 
         transform.localScale = Vector3.one * Radius;
+
+        bound = GetComponent<SphereCollider>();
 
         GenerateMap();
     }
