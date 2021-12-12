@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6554133384034089860}
   - component: {fileID: 1064681796447760078}
   - component: {fileID: 7886562807371483645}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree Prototype
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,6 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   all_trees: {fileID: 11400000, guid: e6ae38e8d350f664db23094ed78a7305, type: 2}
+  gold: {fileID: 2100000, guid: a4f93bbcbb8b37349af224be32fc40c8, type: 2}
+  normal: {fileID: 2100000, guid: 933191dd8acf4a0469732c875382f3c2, type: 2}
 --- !u!64 &7886562807371483645
 MeshCollider:
   m_ObjectHideFlags: 0

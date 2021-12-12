@@ -6,6 +6,8 @@ public class Tree : MonoBehaviour
 {
     public MeshSet all_trees;
 
+    public Material gold, normal;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +18,20 @@ public class Tree : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
+
+    public bool accomplished
+    {
+        get { return _acc; }
+        set
+        {
+            _acc = value;
+
+            GetComponent<MeshRenderer>().material = _acc ? gold : normal;
+        }
+    }
+
+    private bool _acc;
+
 }

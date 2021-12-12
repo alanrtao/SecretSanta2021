@@ -110,17 +110,36 @@ public class MapPoint : Object
 
     public class Nearest: Comparer<MapPoint>
     {
-        MapPoint anchor;
+        Vector3 pos;
         public Nearest (MapPoint anchor)
         {
-            this.anchor = anchor;
+            pos = anchor.pos;
         }
 
-        // Compares by Length, Height, and Width.
+        public Nearest (Vector3 pos)
+        {
+            this.pos = pos;
+        }
+
         public override int Compare(MapPoint a, MapPoint b)
         {
             return Mathf.RoundToInt(Mathf.Sign(
-                (a.pos - anchor.pos).sqrMagnitude - (b.pos - anchor.pos).sqrMagnitude
+                (a.pos - pos).sqrMagnitude - (b.pos - pos).sqrMagnitude
+                ));
+        }
+    }
+
+    public class NearestLatLon: Comparer<MapPoint>
+    {
+        Vector2 latlon;
+        public NearestLatLon (Vector2 latlon)
+        {
+            this.latlon = latlon;
+        }
+        public override int Compare(MapPoint a, MapPoint b)
+        {
+            return Mathf.RoundToInt(Mathf.Sign(
+                (a.latlon - latlon).sqrMagnitude - (b.latlon - latlon).sqrMagnitude
                 ));
         }
     }
