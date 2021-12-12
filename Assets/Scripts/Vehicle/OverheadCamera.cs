@@ -33,6 +33,8 @@ public class OverheadCamera : MonoBehaviour
     Vector3 shoulder_offset_eq = Vector3.zero;
     Quaternion rot_eq = Quaternion.identity;
 
+    public Material post_processing_outline;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,10 +65,15 @@ public class OverheadCamera : MonoBehaviour
 
         ColorAdjustments col_adj;
         cvs.m_Profile.TryGet(out col_adj);
+        Color c = filter.Evaluate(t);
+
         if (col_adj != null)
         {
-            col_adj.colorFilter.value = filter.Evaluate(t);
+            col_adj.colorFilter.value = c;
         }
+
+        c = Color.Lerp(c, Color.black, .75f);
+        post_processing_outline.SetColor("_Fill", c);
 
         // coladj.parameters[2] = new UnityEngine.Rendering.ColorParameter(filter.Evaluate(t));
 
