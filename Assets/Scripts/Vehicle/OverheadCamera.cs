@@ -60,7 +60,10 @@ public class OverheadCamera : MonoBehaviour
             Manager.Instance.Globe.transform.worldToLocalMatrix.MultiplyPoint(
                 Manager.Instance.Sun.transform.position
                 ).normalized,
-            transform.position.normalized);
+            Manager.Instance.Globe.transform.worldToLocalMatrix.MultiplyPoint(
+                Vehicle.Instance.transform.position
+                ).normalized
+            );
         t = (1 - t) / 2;
 
         ColorAdjustments col_adj;
@@ -72,7 +75,12 @@ public class OverheadCamera : MonoBehaviour
             col_adj.colorFilter.value = c;
         }
 
-        c = Color.Lerp(c, Color.black, .75f);
+        float cH, cS, cV;
+        Color.RGBToHSV(c, out cH, out _, out cV);
+        cS = Mathf.Lerp(0.5f, 0.1f, t); // more saturated during the day
+        cV = Mathf.Lerp(cV, 0, Mathf.Lerp(0.45f, 1f, 1f - t)); // make less bright during the day
+        c = Color.HSVToRGB(cH, cS, cV);
+
         post_processing_outline.SetColor("_Fill", c);
 
         // coladj.parameters[2] = new UnityEngine.Rendering.ColorParameter(filter.Evaluate(t));

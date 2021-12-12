@@ -17,7 +17,7 @@ public class Globe : MonoBehaviour
 
     public Texture[] season_skins;
 
-    public Material tree_skin;
+    public Material tree_skin, cloud_skin;
 
     public GameObject tree_prefab;
 
@@ -49,6 +49,10 @@ public class Globe : MonoBehaviour
     private void FixedUpdate()
     {
         transform.rotation = Quaternion.AngleAxis(360 * Time.fixedDeltaTime / period, Vector3.up) * transform.rotation;
+
+        float t = cloud_skin.GetFloat("_t") + Time.fixedDeltaTime / 300f;
+        cloud_skin.SetFloat("_t", t);
+        cloud_skin.SetFloat("_cloudiness", Mathf.PerlinNoise(0, t * 6) * 0.15f);
     }
 
     public void Spawn()

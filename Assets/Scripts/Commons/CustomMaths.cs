@@ -30,4 +30,19 @@ public class CustomMaths : Object
             Mathf.Lerp(v1.w, v2.w, t)
             );
     }
+
+    public static Vector2 Clamp(Vector2 v, float min, float max)
+    {
+        return new Vector2(Mathf.Clamp(v.x, min, max), Mathf.Clamp(v.y, min, max));
+    }
+
+    public static Vector2 Clamp(Vector2 v, Vector2 min, Vector2 max)
+    {
+        return new Vector2(Mathf.Clamp(v.x, min.x, max.x), Mathf.Clamp(v.y, min.y, max.y));
+    }
+
+    public static Vector2 Clamp(Vector2 v, Vector2 extent)
+    {
+        return Clamp(v, -extent, extent);
+    }
 }

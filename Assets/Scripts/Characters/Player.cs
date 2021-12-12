@@ -41,7 +41,8 @@ public class Player : MassedMonoBehaviour
         // move towards target
         float tDist = (map_pos - target).magnitude;
         float step = Mathf.Min(tDist, dt * velocity);
-        map_pos += (target - map_pos).normalized * step;
+        map_pos += new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * velocity;
+        map_pos = CustomMaths.Clamp(map_pos, Vehicle.Instance.Board.size/2);
 
         transform.localPosition = new Vector3(map_pos.x, bc.size.y / 2, map_pos.y);
         // transform.position = Vehicle.Instance.Board.MapXYToWorld(map_pos) + Vehicle.Instance.transform.up * bc.size.y / 2;
@@ -53,12 +54,12 @@ public class Player : MassedMonoBehaviour
     void Update()
     {
         // rClick or rDrag
-        if (Input.GetMouseButton(1) || Input.GetMouseButtonDown(1))
+        /*if (Input.GetMouseButton(1) || Input.GetMouseButtonDown(1))
         {
             target = Vehicle.Instance.Board.MouseXY;
             // print(target);
             Vehicle.Instance.mouse_marker.Emit();
-        }
+        }*/
 
     }
 }
