@@ -8,6 +8,7 @@ using System.IO;
 public class WorldGen : MonoBehaviour
 {
     public int SpawnCalls;
+
     [Range(0, 1)]
     public float SpawnRate;
 
@@ -52,6 +53,7 @@ public class WorldGen : MonoBehaviour
 
         map = new List<MapPoint>();
 
+        int idx = 0;
         for (int i = 0; i < n; i++)
         {
             if (Random.value > SpawnRate) continue;
@@ -64,13 +66,11 @@ public class WorldGen : MonoBehaviour
             MapPoint mp = new MapPoint(
                 lat,
                 lon,
-                new Vector3(
-                    Radius * Mathf.Cos(lat) * Mathf.Cos(lon),
-                    Radius * Mathf.Cos(lat) * Mathf.Sin(lon),
-                    Radius * Mathf.Sin(lat)
-                    ),
-                i
+                idx++
                 );
+
+            if (mp == null) print(lat + ", " + lon);
+
             map.Add(mp);
         }
 
@@ -82,9 +82,10 @@ public class WorldGen : MonoBehaviour
             // sorted.RemoveAt(0); // pop nearest (first)
 
             // add indices of nearest neighbors to the node
-            map[i].neighbor = sorted;
+            System.Converter<MapPoint, int> ext = (m) => m == null ? -1 : m.index;
+            map[i].neighbors = sorted.ConvertAll(ext);
 
-            return;
+            // return;
         }
     }
 }

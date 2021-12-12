@@ -66,6 +66,8 @@ public class OverheadCamera : MonoBehaviour
             );
         t = (1 - t) / 2;
 
+        // print(t);
+
         ColorAdjustments col_adj;
         cvs.m_Profile.TryGet(out col_adj);
         Color c = filter.Evaluate(t);

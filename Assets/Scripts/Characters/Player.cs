@@ -53,6 +53,10 @@ public class Player : MassedMonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Manager.Instance.Globe.Achievement(transform.position);
+        }
         // rClick or rDrag
         /*if (Input.GetMouseButton(1) || Input.GetMouseButtonDown(1))
         {

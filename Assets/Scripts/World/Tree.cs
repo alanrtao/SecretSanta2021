@@ -27,8 +27,7 @@ public class Tree : MonoBehaviour
         set
         {
             _acc = value;
-
-            GetComponent<MeshRenderer>().material = _acc ? gold : normal;
+            GetComponent<MeshRenderer>().sharedMaterial = _acc ? gold : normal;
         }
     }
 

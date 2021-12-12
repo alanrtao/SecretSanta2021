@@ -16,8 +16,6 @@ public class Manager : MonoBehaviour
 
     public Sun Sun;
 
-    public GameObject TreePrototype;
-
     public Camera mCam;
 
     public bool cameraMode = false; // taking a picture or not

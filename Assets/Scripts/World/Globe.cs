@@ -8,6 +8,7 @@ public class Globe : MonoBehaviour
     public float period; // period of one revolution
 
     public List<MapPoint> map;
+    public List<Tree> trees;
 
     public Collider bound;
 
@@ -18,8 +19,6 @@ public class Globe : MonoBehaviour
     public Texture[] season_skins;
 
     public Material tree_skin, cloud_skin;
-
-    public GameObject tree_prefab;
 
     // Start is called before the first frame update
     void Start()
@@ -57,54 +56,103 @@ public class Globe : MonoBehaviour
 
     public void Spawn()
     {
+        trees = new List<Tree>();
         foreach(MapPoint p in map)
         {
-            p.Instantiate(tree_prefab);
+            trees.Add(Instantiate(p.index));
         }
     }
-}
 
-[System.Serializable]
-public class MapPoint : Object
-{
-    public static int nNeighbors = 3;
-
-    public Vector3 pos;
-
-    GameObject tree;
-
-    public int index;
-
-    public List<MapPoint> neighbor;
-
-    public Nearest nearest;
-
-    Vector2 latlon;
-
-    public MapPoint(float lat, float lon, Vector3 pos, int index)
+    // turn the nearest tree from p to golden!
+    public void Achievement(Vector3 p)
     {
-        this.pos = pos;
-        this.index = index;
+        MapPoint.Nearest order = new MapPoint.Nearest(p);
+        MapPoint min = MapPoint.nullPoint;
 
-        latlon = new Vector2(lat, lon);
+        map.ForEach(i => i.Flush());
 
-        nearest = new Nearest(this);
+        for (int i = 0; i < map.Count; i++)
+        {
+            if (trees[i].accomplished == false)
+            {
+                min = map[i];
+                break;
+            }
+        }
+        if (min == MapPoint.nullPoint) return;
+
+        for (int i = min.index + 1; i < map.Count; i++)
+        {
+            if (order.Compare(min, map[i]) > 0 && !trees[i].accomplished)
+            {
+                min = map[i];
+            }
+        }
+        trees[min.index].accomplished = true;
     }
 
-    public GameObject Instantiate(GameObject prototype)
+    [SerializeField] private GameObject TreePrototype;
+    public Tree Instantiate(int i)
     {
-        if (tree != null) return tree;
-        tree = Instantiate(Manager.Instance.TreePrototype, Manager.Instance.Globe.transform);
-        tree.transform.position = pos;
+        GameObject go = GameObject.Instantiate(TreePrototype, Manager.Instance.Globe.transform);
+        go.transform.position = map[i].pos * Radius;
+        Tree tree = go.GetComponent<Tree>();
 
-        Vector3 ax = Vector3.Cross(tree.transform.up, pos.normalized);
+        Vector3 ax = Vector3.Cross(tree.transform.up, map[i].pos.normalized);
         tree.transform.rotation = Quaternion.AngleAxis(
-            Vector3.SignedAngle(Vector3.up, pos.normalized, ax),
+            Vector3.SignedAngle(Vector3.up, map[i].pos.normalized, ax),
             ax
             );
         tree.transform.localScale = Vector3.one / Manager.Instance.Globe.Radius;
 
         return tree;
+    }
+}
+
+[System.Serializable]
+public class MapPoint
+{
+    public static int nNeighbors = 3;
+
+    public Vector3 map_pos;
+
+    Vector3 wpos;
+    public Vector3 pos
+    {
+        get { return wpos; }
+    }
+
+    public int index;
+
+    // public List<MapPoint> neighbor;
+
+    public Nearest nearest;
+
+    public List<int> neighbors;
+
+    Vector2 latlon;
+
+    public static MapPoint nullPoint = new MapPoint(1, 1, -1);
+
+    public MapPoint(float lat, float lon, int index)
+    {
+        this.index = index;
+
+        latlon = new Vector2(lat, lon);
+
+        map_pos = new Vector3(
+                    Mathf.Cos(lat) * Mathf.Cos(lon),
+                    Mathf.Cos(lat) * Mathf.Sin(lon),
+                    Mathf.Sin(lat)
+                    );
+
+        nearest = new Nearest(this);
+    }
+
+    // update world position to fit the current globe orientation
+    public void Flush()
+    {
+        wpos = Manager.Instance.Globe.transform.localToWorldMatrix.MultiplyPoint(map_pos);
     }
 
     public float Distance(MapPoint mp)
