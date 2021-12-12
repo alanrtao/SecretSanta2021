@@ -7,14 +7,19 @@ public class Globe : MonoBehaviour
 {
     public float period; // period of one revolution
 
-    public float Radius;
-    public int SpawnCalls;
-    [Range(0, 1)]
-    public float SpawnRate;
-
-    List<MapPoint> map;
+    public List<MapPoint> map;
 
     public Collider bound;
+
+    public float Radius;
+
+    public float season;
+
+    public Texture[] season_skins;
+
+    public Material tree_skin;
+
+    public GameObject tree_prefab;
 
     // Start is called before the first frame update
     void Start()
@@ -25,13 +30,20 @@ public class Globe : MonoBehaviour
         transform.localScale = Vector3.one * Radius;
 
         bound = GetComponent<SphereCollider>();
-
-        GenerateMap();
     }
 
     // Update is called once per frame
+    float season_counter = 0;
+    int season_id = 0;
     void Update()
     {
+        season_counter += Time.deltaTime;
+        if (season_counter >= season)
+        {
+            season_counter = 0;
+            season_id = (season_id + 1) % 4;
+            tree_skin.mainTexture = season_skins[season_id];
+        }
     }
 
     private void FixedUpdate()
@@ -39,61 +51,77 @@ public class Globe : MonoBehaviour
         transform.rotation = Quaternion.AngleAxis(360 * Time.fixedDeltaTime / period, Vector3.up) * transform.rotation;
     }
 
-    // references Red Blob Games' tutorial, which in turn references Fil (visionscarto.net) from Observablehq.com
-    // generates more-or-less equidistant points on a sphere
-    void GenerateMap()
+    public void Spawn()
     {
-        if (!Application.isPlaying) return;
-
-        int n = SpawnCalls;
-
-        float lonstep = 720f / (Mathf.Sqrt(5) + 1);
-        float polegap = .7012f;
-        float latstep = 2f / (n - 1 + 2 * polegap);
-        float latstart = -1 + polegap * latstep;
-
-        for (int i = 0; i < n; i++)
+        foreach(MapPoint p in map)
         {
-            if (Random.value > SpawnRate) continue;
-
-            float lon = lonstep * i - 360 * Mathf.Round((lonstep * i) / 360f);
-            float lat = Mathf.Asin(latstart + i * latstep);
-
-            lon = Mathf.Deg2Rad * lon;
-
-            MapPoint mp = new MapPoint(
-                new Vector3(
-                    Radius * Mathf.Cos(lat) * Mathf.Cos(lon),
-                    Radius * Mathf.Cos(lat) * Mathf.Sin(lon),
-                    Radius * Mathf.Sin(lat)
-                    )
-                );
-            map.Add(mp);
-        }
-
-    }
-
-    public class MapPoint : Object
-    {
-        public static int nNeighbors = 3;
-
-        public Vector3 pos;
-
-        GameObject tree;
-
-        public MapPoint(Vector3 pos)
-        {
-            this.pos = pos;
-            tree = Instantiate(Manager.Instance.TreePrototype, Manager.Instance.Globe.transform);
-            tree.transform.position = pos;
-            Vector3 ax = Vector3.Cross(tree.transform.up, pos.normalized);
-            tree.transform.rotation = Quaternion.AngleAxis(
-                Vector3.SignedAngle(Vector3.up, pos.normalized, ax),
-                ax
-                );
-            tree.transform.localScale = Vector3.one / Manager.Instance.Globe.Radius;
+            p.Instantiate(tree_prefab);
         }
     }
+}
 
+[System.Serializable]
+public class MapPoint : Object
+{
+    public static int nNeighbors = 3;
 
+    public Vector3 pos;
+
+    GameObject tree;
+
+    public int index;
+
+    public List<MapPoint> neighbor;
+
+    public Nearest nearest;
+
+    Vector2 latlon;
+
+    public MapPoint(float lat, float lon, Vector3 pos, int index)
+    {
+        this.pos = pos;
+        this.index = index;
+
+        latlon = new Vector2(lat, lon);
+
+        nearest = new Nearest(this);
+    }
+
+    public GameObject Instantiate(GameObject prototype)
+    {
+        if (tree != null) return tree;
+        tree = Instantiate(Manager.Instance.TreePrototype, Manager.Instance.Globe.transform);
+        tree.transform.position = pos;
+
+        Vector3 ax = Vector3.Cross(tree.transform.up, pos.normalized);
+        tree.transform.rotation = Quaternion.AngleAxis(
+            Vector3.SignedAngle(Vector3.up, pos.normalized, ax),
+            ax
+            );
+        tree.transform.localScale = Vector3.one / Manager.Instance.Globe.Radius;
+
+        return tree;
+    }
+
+    public float Distance(MapPoint mp)
+    {
+        return (mp.pos - pos).magnitude;
+    }
+
+    public class Nearest: Comparer<MapPoint>
+    {
+        MapPoint anchor;
+        public Nearest (MapPoint anchor)
+        {
+            this.anchor = anchor;
+        }
+
+        // Compares by Length, Height, and Width.
+        public override int Compare(MapPoint a, MapPoint b)
+        {
+            return Mathf.RoundToInt(Mathf.Sign(
+                (a.pos - anchor.pos).sqrMagnitude - (b.pos - anchor.pos).sqrMagnitude
+                ));
+        }
+    }
 }
