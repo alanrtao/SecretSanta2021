@@ -82,8 +82,7 @@ public class WorldGen : MonoBehaviour
             // sorted.RemoveAt(0); // pop nearest (first)
 
             // add indices of nearest neighbors to the node
-            System.Converter<MapPoint, int> ext = (m) => m == null ? -1 : m.index;
-            map[i].neighbors = sorted.ConvertAll(ext);
+            map[i].neighbors = sorted.ConvertAll(MapPoint.ext);
 
             // return;
         }

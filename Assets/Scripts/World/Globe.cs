@@ -10,6 +10,8 @@ public class Globe : MonoBehaviour
     public List<MapPoint> map;
     public List<Tree> trees;
 
+    public System.Tuple<MapPoint, Tree> Access (int i) { return new System.Tuple<MapPoint, Tree>(map[i], trees[i]); }
+
     public Collider bound;
 
     public float Radius;
@@ -95,14 +97,10 @@ public class Globe : MonoBehaviour
     public Tree Instantiate(int i)
     {
         GameObject go = GameObject.Instantiate(TreePrototype, Manager.Instance.Globe.transform);
-        go.transform.position = map[i].pos * Radius;
+        // print(Radius);
+        go.transform.position = map[i].map_pos * Radius;
         Tree tree = go.GetComponent<Tree>();
-
-        Vector3 ax = Vector3.Cross(tree.transform.up, map[i].pos.normalized);
-        tree.transform.rotation = Quaternion.AngleAxis(
-            Vector3.SignedAngle(Vector3.up, map[i].pos.normalized, ax),
-            ax
-            );
+        tree.transform.up = tree.transform.position.normalized;
         tree.transform.localScale = Vector3.one / Manager.Instance.Globe.Radius;
 
         return tree;
@@ -159,6 +157,8 @@ public class MapPoint
     {
         return (mp.pos - pos).magnitude;
     }
+
+    public static System.Converter<MapPoint, int> ext = (m) => m == null ? -1 : m.index;
 
     public class Nearest: Comparer<MapPoint>
     {
