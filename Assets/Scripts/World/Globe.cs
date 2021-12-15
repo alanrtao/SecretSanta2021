@@ -54,6 +54,29 @@ public class Globe : MonoBehaviour
         float t = cloud_skin.GetFloat("_t") + Time.fixedDeltaTime / 300f;
         cloud_skin.SetFloat("_t", t);
         cloud_skin.SetFloat("_cloudiness", Mathf.PerlinNoise(0, t * 6) * 0.15f);
+
+        Vector3 mCamPos = Manager.Instance.mCam.transform.position.normalized;
+
+        // clip depth to the horizon
+        float zMax = Manager.Instance.mCam.WorldToViewportPoint(Manager.Instance.mCam.transform.up * Radius).z;
+
+        foreach (Tree tr in trees)
+        {
+            Vector3 vp = Manager.Instance.mCam.WorldToViewportPoint(tr.transform.position);
+
+            if (vp.z < zMax)
+            {
+                if (InScreen(vp)) {
+                    tr.accomplished = true;
+                } else
+                {
+                    tr.accomplished = false;
+                }
+            } else
+            {
+                tr.accomplished = false;
+            }
+        }
     }
 
     public void Spawn()
@@ -63,6 +86,11 @@ public class Globe : MonoBehaviour
         {
             trees.Add(Instantiate(p.index));
         }
+    }
+
+    bool InScreen(Vector3 viewport)
+    {
+        return viewport.x >= 0 && viewport.y >= 0 && viewport.x <= 1 && viewport.y <= 1;
     }
 
     // turn the nearest tree from p to golden!
