@@ -5490,6 +5490,7 @@ GameObject:
   - component: {fileID: 646062474}
   - component: {fileID: 646062478}
   - component: {fileID: 646062479}
+  - component: {fileID: 646062480}
   m_Layer: 8
   m_Name: Globe
   m_TagString: Untagged
@@ -5599,6 +5600,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 99897f7919c46fc43969a2a130434315, type: 3}
   tree_skin: {fileID: 2100000, guid: 933191dd8acf4a0469732c875382f3c2, type: 2}
   cloud_skin: {fileID: 2100000, guid: cea6391c360341c46817257c69d14df2, type: 2}
+  blob_manager: {fileID: 646062480}
   TreePrototype: {fileID: 6554133384034089862, guid: 878c3deb8ccab2243a0a82bd24924bd8, type: 3}
 --- !u!114 &646062479
 MonoBehaviour:
@@ -5613,8 +5615,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnCalls: 5000
-  SpawnRate: 0.741
+  SpawnRate: 0.71
   Radius: 100
+--- !u!114 &646062480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 646062473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ecbdc1c0fd11d64c84069a110e78234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &681818484
 GameObject:
   m_ObjectHideFlags: 0

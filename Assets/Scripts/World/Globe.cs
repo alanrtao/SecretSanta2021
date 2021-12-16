@@ -22,6 +22,8 @@ public class Globe : MonoBehaviour
 
     public Material tree_skin, cloud_skin;
 
+    public BlobManager blob_manager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,9 +56,19 @@ public class Globe : MonoBehaviour
         float t = cloud_skin.GetFloat("_t") + Time.fixedDeltaTime / 300f;
         cloud_skin.SetFloat("_t", t);
         cloud_skin.SetFloat("_cloudiness", Mathf.PerlinNoise(0, t * 6) * 0.15f);
+    }
 
-        Vector3 mCamPos = Manager.Instance.mCam.transform.position.normalized;
+    public void Spawn()
+    {
+        trees = new List<Tree>();
+        foreach(MapPoint p in map)
+        {
+            trees.Add(Instantiate(p.index));
+        }
+    }
 
+    void CheckCameraInclusion()
+    {
         // clip depth to the horizon
         float zMax = Manager.Instance.mCam.WorldToViewportPoint(Manager.Instance.mCam.transform.up * Radius).z;
 
@@ -66,25 +78,19 @@ public class Globe : MonoBehaviour
 
             if (vp.z < zMax)
             {
-                if (InScreen(vp)) {
+                if (InScreen(vp))
+                {
                     tr.accomplished = true;
-                } else
+                }
+                else
                 {
                     tr.accomplished = false;
                 }
-            } else
+            }
+            else
             {
                 tr.accomplished = false;
             }
-        }
-    }
-
-    public void Spawn()
-    {
-        trees = new List<Tree>();
-        foreach(MapPoint p in map)
-        {
-            trees.Add(Instantiate(p.index));
         }
     }
 
