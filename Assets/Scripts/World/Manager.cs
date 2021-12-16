@@ -18,7 +18,13 @@ public class Manager : MonoBehaviour
 
     public Camera mCam;
 
-    public bool cameraMode = false; // taking a picture or not
+    // taking a picture or not
+    public bool cameraMode { get { return _cameraMode; } set {  } }
+    bool _cameraMode = false;
+
+    public delegate void MethodSlot();
+
+    public MethodSlot PhotoShoot = () => { print("photoshoot"); };
 
     private void Awake()
     {
