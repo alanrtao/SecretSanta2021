@@ -18,6 +18,8 @@ public class Manager : MonoBehaviour
 
     public Camera mCam;
 
+    public OverheadCamera oCam;
+
     // taking a picture or not
     public bool cameraMode { get { return _cameraMode; } set {  } }
     bool _cameraMode = false;
@@ -25,6 +27,9 @@ public class Manager : MonoBehaviour
     public delegate void MethodSlot();
 
     public MethodSlot PhotoShoot = () => { print("photoshoot"); };
+
+    [SerializeField] private Customer[] customers;
+    public Customer curr;
 
     private void Awake()
     {

@@ -75,7 +75,7 @@ public class WorldGen : MonoBehaviour
         }
 
         // sort distances
-        for (int i = 0; i < map.Count; i++)
+        /*for (int i = 0; i < map.Count; i++)
         {
             List<MapPoint> sorted = new List<MapPoint>(map);
             sorted.Sort(map[i].nearest);
@@ -85,6 +85,6 @@ public class WorldGen : MonoBehaviour
             map[i].neighbors = sorted.ConvertAll(MapPoint.ext);
 
             // return;
-        }
+        }*/
     }
 }

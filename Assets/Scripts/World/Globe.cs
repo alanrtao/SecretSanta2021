@@ -67,10 +67,21 @@ public class Globe : MonoBehaviour
         }
     }
 
-    void CheckCameraInclusion()
+    public List<Tree> CheckCameraInclusion()
     {
-        // clip depth to the horizon
-        float zMax = Manager.Instance.mCam.WorldToViewportPoint(Manager.Instance.mCam.transform.up * Radius).z;
+        Vector3 rUp = Manager.Instance.mCam.WorldToViewportPoint(Manager.Instance.mCam.transform.up * Radius);
+        float zMax = rUp.z;
+
+        /*if (InScreen(rUp))
+        {
+            // if horizon is visible, the furthest to go is the horizon
+            zMax = rUp.z;
+        } else
+        {
+            // other wise, do trig
+        }*/
+
+        List<Tree> included = new List<Tree>();
 
         foreach (Tree tr in trees)
         {
@@ -80,21 +91,14 @@ public class Globe : MonoBehaviour
             {
                 if (InScreen(vp))
                 {
-                    tr.accomplished = true;
+                    included.Add(tr);
                 }
-                else
-                {
-                    tr.accomplished = false;
-                }
-            }
-            else
-            {
-                tr.accomplished = false;
             }
         }
+        return included;
     }
 
-    bool InScreen(Vector3 viewport)
+    public bool InScreen(Vector3 viewport)
     {
         return viewport.x >= 0 && viewport.y >= 0 && viewport.x <= 1 && viewport.y <= 1;
     }

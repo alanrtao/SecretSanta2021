@@ -5865,15 +5865,15 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 415
   m_RenderingLayerMask: 1
   m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0.75
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -5888,13 +5888,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 733051342}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 0, z: -300}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -500}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &733051345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6132,7 +6132,8 @@ MonoBehaviour:
   Globe: {fileID: 646062478}
   Sun: {fileID: 733051345}
   mCam: {fileID: 1761822578}
-  cameraMode: 0
+  oCam: {fileID: 0}
+  customers: []
 --- !u!4 &1499727905
 Transform:
   m_ObjectHideFlags: 0
@@ -6420,7 +6421,7 @@ MonoBehaviour:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
-    key2: {r: 0.9433962, g: 0.7145821, b: 0.4494482, a: 0}
+    key2: {r: 0.9433962, g: 0.7145821, b: 0.4494482, a: 1}
     key3: {r: 0.7264151, g: 0.5722232, b: 0.6647384, a: 0}
     key4: {r: 0.61960787, g: 0.76109475, b: 1, a: 0}
     key5: {r: 0.61960787, g: 0.76109475, b: 1, a: 0}
@@ -6436,7 +6437,7 @@ MonoBehaviour:
     ctime7: 0
     atime0: 0
     atime1: 65535
-    atime2: 0
+    atime2: 65535
     atime3: 0
     atime4: 0
     atime5: 0
@@ -6452,6 +6453,7 @@ MonoBehaviour:
   sensitivity: 6.5
   cam_smoothness: 0
   post_processing_outline: {fileID: 2100000, guid: c4e92dbf12697da43a924112c9275f41, type: 2}
+  t: 0
 --- !u!114 &1761822584
 MonoBehaviour:
   m_ObjectHideFlags: 0

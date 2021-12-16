@@ -50,13 +50,14 @@ public class OverheadCamera : MonoBehaviour
     }
 
     // Update is called once per frame
+    public float t;
     void Update()
     {
         Cinemachine3rdPersonFollow vcFollow = vc.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
 
         // tint based on location: -1 (complete back side) is midnight, 1 (complete sun) is noon
 
-        float t = Vector3.Dot(
+         t = Vector3.Dot(
             Manager.Instance.Globe.transform.worldToLocalMatrix.MultiplyPoint(
                 Manager.Instance.Sun.transform.position
                 ).normalized,
