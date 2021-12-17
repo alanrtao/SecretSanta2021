@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e5703db8e77b824591a3bc585ee143d, type: 3}
-  m_Name: 1
+  m_Name: 3
   m_EditorClassIdentifier: 
-  outfit: {r: 0.44971517, g: 0.5093763, b: 0.5849056, a: 0}
-  size: {x: 0.3, y: 0.5, z: 0.3}
+  outfit: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 0}
+  size: {x: 0.4, y: 0.3, z: 0.4}

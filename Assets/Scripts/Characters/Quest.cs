@@ -6,16 +6,23 @@ using UnityEngine;
 public class Quest : ScriptableObject
 {
     public Color outfit;
-    public Sprite sprite;
-    public string display_name;
-    [TextArea]
-    public string prediag, postdiag;
     public Vector3 size;
 
     // null is the criterion passing
-    public System.Func<Customer, string> criterion { get { return criteria[id]; } }
+    public System.Tuple<string, System.Func<Customer, string>> criterion { get { return new System.Tuple<string, System.Func<Customer, string>>(requests[id], criteria[id]); } }
 
     public int id { get { return int.Parse(name); } }
+
+    static string[] requests = {
+        "WASD to move and E to interact. Right mouse button to change the view; left to take a picture.",
+        "This person likes to gaze far ahead. A picture with the horizon would be preferable.",
+        "Early worm or late worm? Get a view of the dawn... or dusk",
+        "Trees bore this person. Please take a picture with NO trees",
+        "Higher! Above the clouds!",
+        "Dude really likes trees. Get a picture with a LOT of trees",
+        "This highly prestiged individual wants a picture of the whole planet",
+        "The baby cries. You don't want it to keep crying, don't you?"
+    };
 
     static System.Func<Customer, string>[] criteria =
     {
@@ -86,34 +93,8 @@ public class Quest : ScriptableObject
             if (Manager.Instance.Globe.CheckCameraInclusion().Count > 100) return null;
             else
             {
-                return "It's a little... underpopulated, isn't it?";
+                return "It's a little... underpopulated";
             }
-        },
-        (_)=>{
-            // checks for going down at a high altitude
-            if (Vector3.Dot(Vehicle.Instance.transform.forward, Vehicle.Instance.transform.position.normalized) < -0.3f)
-            {
-                return "Not steep enough, I don't feel it :/";
-            }
-            if (Vehicle.Instance.transform.position.magnitude < Manager.Instance.Globe.Radius * 3f)
-            {
-                return "Go higher!--and then dive down.";
-            }
-            return null;
-        },
-        (_)=>{
-            // checks for facing the sun
-            if ( Manager.Instance.mCam.GetComponent<OverheadCamera>().t > 0.5f )
-            {
-                return "Not. Enough. Sun.";
-            } else if (Vector3.Dot(
-                Vehicle.Instance.transform.position - Manager.Instance.mCam.transform.position,
-                Manager.Instance.Sun.transform.position - Vehicle.Instance.transform.position
-                ) < 0.1f)
-            {
-                return "You need to like, face the sun :/";
-            }
-            return null;
         },
         (_)=>{
             // checks for view of the entire planet

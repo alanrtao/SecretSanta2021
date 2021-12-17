@@ -167,20 +167,21 @@ MonoBehaviour:
   bound: {fileID: 7775601572954400779}
   quests:
   - {fileID: 11400000, guid: b3ff0f5510973c94c951755ead3bebbd, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 841f521c7e94ead4283f7b643d1dfab3, type: 2}
+  - {fileID: 11400000, guid: 80079aebeb453a646bade7d83005ab70, type: 2}
+  - {fileID: 11400000, guid: e2da9b293ba90494a9baac533c94636f, type: 2}
+  - {fileID: 11400000, guid: 8b551c9df555ed24991690709b0d5e64, type: 2}
+  - {fileID: 11400000, guid: ae534717a80dd034db11d8b3388ac9e3, type: 2}
+  - {fileID: 11400000, guid: 2eae180781708444eb4c46bbafafd7a3, type: 2}
+  - {fileID: 11400000, guid: cda66e196cf35dd4b931660aad6c40ac, type: 2}
+  idx: -1
   text: {fileID: 8216183618883132875}
   center: {fileID: 5650091532947967621}
   display: {fileID: 5110322927665690010}
   trigger: {fileID: 0}
   UICanvas: {fileID: 0}
+  picture: {fileID: 0}
+  npc_mat: {fileID: 0}
 --- !u!54 &1501670270
 Rigidbody:
   m_ObjectHideFlags: 0

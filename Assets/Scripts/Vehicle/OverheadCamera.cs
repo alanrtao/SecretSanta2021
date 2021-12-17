@@ -138,6 +138,8 @@ public class OverheadCamera : MonoBehaviour
 
     IEnumerator PrintPicture()
     {
+        Customer.Instance.CheckCriterion();
+
         print("taking a picture...");
         // capture picture
         RenderTexture picture_rt = cam.targetTexture;
@@ -165,6 +167,7 @@ public class OverheadCamera : MonoBehaviour
         RectTransform rect = picture.transform as RectTransform;
         Vector2 stg = rect.anchoredPosition;
         picture_mat.SetVector("_root", new Vector2(Random.value * 10000, Random.value * 10000));
+
         while (t < 0)
         {
             t += Mathf.PerlinNoise(Time.time * 1f, 0) * Time.fixedDeltaTime;

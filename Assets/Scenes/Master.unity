@@ -359,7 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eabb6ce06d278174292520980a6f9fab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  v_tan: 250
+  v_tan: 2000
   v_norm: 5
   dAng_dt: 15
   pitch_lerp: 0
@@ -7291,6 +7291,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3235477345632941217, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
+      propertyPath: npc_mat
+      value: 
+      objectReference: {fileID: 2100000, guid: 37c4a4abcf9fbf748904dae2596928b4, type: 2}
     - target: {fileID: 3235477345632941217, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
       propertyPath: picture
       value: 

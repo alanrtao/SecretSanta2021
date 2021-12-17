@@ -116,8 +116,8 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _cloudiness: 0.06967542
-    - _t: 56.841774
+    - _cloudiness: 0.06979097
+    - _t: 57.695717
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

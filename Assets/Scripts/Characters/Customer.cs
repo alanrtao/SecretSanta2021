@@ -12,7 +12,7 @@ public class Customer : MassedMonoBehaviour
     Quest q;
 
     [SerializeField] private Quest[] quests;
-    int idx = -1;
+    public int idx = -1;
 
     [SerializeField] private TextMeshProUGUI text;
 
@@ -24,9 +24,16 @@ public class Customer : MassedMonoBehaviour
 
     [SerializeField] private GameObject picture;
 
+    [SerializeField] private Material npc_mat;
+
+    System.Func<Customer, string> crit;
+
+    public static Customer Instance;
+
     private void Awake()
     {
         idx = -1; // go to first customer when scene load
+        Instance = this;
     }
 
     // Start is called before the first frame update
@@ -49,6 +56,7 @@ public class Customer : MassedMonoBehaviour
     {
         UICanvas.SetActive(false);
         Vehicle.Instance.Board.masses.RemoveAll((m) => (m == this));
+        trigger.gameObject.SetActive(true);
     }
 
     void Init()
@@ -61,7 +69,7 @@ public class Customer : MassedMonoBehaviour
 
         bound = center.gameObject.AddComponent<BoxCollider>();
 
-        center.localScale = new Vector3(q.size.x, q.size.x, q.size.x);
+        center.localScale = q.size;
         center.localPosition = new Vector3(valid_point.x, bound.size.y * center.localScale.y / 2, valid_point.y);
 
         // update trigger position to random sphere point
@@ -77,7 +85,12 @@ public class Customer : MassedMonoBehaviour
 
         weight_transform = center;
         rb = GetComponent<Rigidbody>();
-        rb.mass = q.size.x / .3f;
+        rb.mass = q.size.x * q.size.y * q.size.z / .3f / .3f / .3f;
+
+        crit = q.criterion.Item2;
+        text.text = q.criterion.Item1;
+
+        npc_mat.color = q.outfit;
     }
 
     // Update is called once per frame
@@ -101,7 +114,27 @@ public class Customer : MassedMonoBehaviour
         }
     }
 
+    public void CheckCriterion()
+    {
+        string err = crit(this);
+        if (err == null)
+        {
+            gameObject.SetActive(false);
+        } else
+        {
+            StartCoroutine(TemporaryReplaceText(err));
+        }
+    }
 
+    IEnumerator TemporaryReplaceText(string str)
+    {
+        string orig = text.text;
+
+        text.text = str;
+        yield return new WaitForSeconds(5);
+
+        text.text = orig;
+    }
 
     private void FixedUpdate()
     {
