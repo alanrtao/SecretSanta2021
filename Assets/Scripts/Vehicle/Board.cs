@@ -131,4 +131,20 @@ public class Board : MonoBehaviour
     {
         return GetUV(worldpos).x;
     }
+
+    public Vector2 GetValidPoint()
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            float x = Random.value;
+            float y = Random.value;
+
+            float dist = (new Vector2(x, y) - Player.instance.xy).magnitude;
+            if (dist > 0.3f)
+            {
+                return new Vector2(x, y);
+            }
+        }
+        return Vector2.zero;
+    }
 }

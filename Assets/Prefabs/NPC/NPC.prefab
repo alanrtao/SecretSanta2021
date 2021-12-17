@@ -164,7 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   picked_up: 0
   quests:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: b3ff0f5510973c94c951755ead3bebbd, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

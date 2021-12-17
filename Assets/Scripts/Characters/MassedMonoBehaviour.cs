@@ -6,7 +6,7 @@ public class MassedMonoBehaviour : MonoBehaviour
 {
     // position of the object on the map
     protected Vector2 map_pos;
-
+    public Vector2 xy { get { return map_pos; } }
     // 
 
     public Vector3 weight_contribution

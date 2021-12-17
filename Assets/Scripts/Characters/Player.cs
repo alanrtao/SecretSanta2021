@@ -46,7 +46,7 @@ public class Player : MassedMonoBehaviour
         map_pos += axis * dt * velocity;
         map_pos = CustomMaths.Clamp(map_pos, Vehicle.Instance.Board.size/2);
 
-        transform.localPosition = new Vector3(map_pos.x, bc.size.y / 2, map_pos.y);
+        transform.localPosition = new Vector3(map_pos.x, 0.5f, map_pos.y);
         // transform.position = Vehicle.Instance.Board.MapXYToWorld(map_pos) + Vehicle.Instance.transform.up * bc.size.y / 2;
 
 // print(map_pos + " ~ " + Vehicle.Instance.Board.GetXY(transform.position).ToString("F3") + " -> " + target.ToString("F3"));
