@@ -51,21 +51,26 @@ public class Board : MonoBehaviour
         display.localScale = new Vector3(w / 10, 1, h / 10);
     }
 
+    Quaternion rot_eq;
+    [Range(0, 1), SerializeField] private float rotation_smoothness;
     private void FixedUpdate()
     {
         Vector3 c = Vector3.zero;
         foreach (MassedMonoBehaviour m in masses)
         {
+            // print(m.name + " -> " + m.weight_contribution);
             c += m.weight_contribution;
         }
         center_of_mass_eq.x = c.x / (w / 2);
         center_of_mass_eq.y = c.z / (h / 2);
         
-        transform.localRotation = Quaternion.Euler(
+        rot_eq = Quaternion.Euler(
             pitch_ext * center_of_mass.y, // pitch
             0, // yaw
             - roll_ext * center_of_mass.x // roll
             );
+
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, rot_eq, rotation_smoothness);
 
         center_of_mass = CustomMaths.Lerp(center_of_mass, center_of_mass_eq, com_smoothness);
     }
@@ -136,13 +141,12 @@ public class Board : MonoBehaviour
     {
         for(int i = 0; i < 10; i++)
         {
-            float x = Random.value;
-            float y = Random.value;
+            Vector2 xy = new Vector2(Random.value, Random.value);
 
-            float dist = (new Vector2(x, y) - Player.instance.xy).magnitude;
+            float dist = (xy - Player.instance.xy).magnitude;
             if (dist > 0.3f)
             {
-                return new Vector2(x, y);
+                return xy;
             }
         }
         return Vector2.zero;

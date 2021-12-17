@@ -31,8 +31,12 @@ public class Player : MassedMonoBehaviour
         rb = GetComponent<Rigidbody>();
         bc = GetComponent<BoxCollider>();
 
+        weight_transform = transform;
+
         Vehicle.Instance.Board.masses.Add(this);
     }
+
+    public Vector2 dir = Vector2.zero;
 
     private void FixedUpdate()
     {
@@ -46,10 +50,8 @@ public class Player : MassedMonoBehaviour
         map_pos += axis * dt * velocity;
         map_pos = CustomMaths.Clamp(map_pos, Vehicle.Instance.Board.size/2);
 
-        transform.localPosition = new Vector3(map_pos.x, 0.5f, map_pos.y);
-        // transform.position = Vehicle.Instance.Board.MapXYToWorld(map_pos) + Vehicle.Instance.transform.up * bc.size.y / 2;
-
-// print(map_pos + " ~ " + Vehicle.Instance.Board.GetXY(transform.position).ToString("F3") + " -> " + target.ToString("F3"));
+        if (axis.magnitude > 0) { dir = new Vector2(axis.x, axis.y).normalized; }
+        transform.localPosition = new Vector3(map_pos.x, bc.size.y * transform.localScale.y / 2, map_pos.y);
     }
 
     // Update is called once per frame

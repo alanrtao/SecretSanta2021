@@ -20,6 +20,8 @@ public class Customer : MassedMonoBehaviour
 
     [SerializeField] private NPCTrigger trigger;
 
+    [SerializeField] private GameObject UICanvas;
+
     private void Awake()
     {
         idx = -1; // go to first customer when scene load
@@ -35,16 +37,29 @@ public class Customer : MassedMonoBehaviour
         idx++;
         if (idx >= quests.Length) { Manager.Instance.GameEnd(); return; }
         Init();
+
+        Vehicle.Instance.Board.masses.Add(this);
+
+        UICanvas.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        UICanvas.SetActive(false);
+        Vehicle.Instance.Board.masses.RemoveAll((m) => (m == this));
     }
 
     void Init()
     {
         q = quests[idx];
 
+        if (bound != null) Destroy(bound);
+
         Vector2 valid_point = Vehicle.Instance.Board.GetValidPoint();
         display.localPosition = new Vector3(valid_point.x, q.size.y, valid_point.y);
-        bound.size = new Vector3(1, 2, 1);
         display.localScale = new Vector3(q.size.x, q.size.x, q.size.x);
+
+        bound = gameObject.AddComponent<BoxCollider>();
 
         // update trigger position to random sphere point
         float phi = Random.value * 2 * Mathf.PI;
@@ -56,6 +71,10 @@ public class Customer : MassedMonoBehaviour
             r * Mathf.Cos(theta) * Mathf.Sin(phi),
             r * Mathf.Sin(theta)
             );
+
+        weight_transform = display;
+        rb = GetComponent<Rigidbody>();
+        rb.mass = q.size.x / .3f;
     }
 
     // Update is called once per frame
@@ -63,7 +82,13 @@ public class Customer : MassedMonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if(picked_up) { picked_up = false; }
+            if(picked_up) {
+                picked_up = false;
+
+                Vector3 t = display.localPosition;
+                t.y = bound.size.y * display.localScale.y / 2;
+                display.localPosition = t;
+            }
             else
             {
                 if ((display.position - Player.instance.transform.position).magnitude < 1) {
@@ -77,9 +102,15 @@ public class Customer : MassedMonoBehaviour
     {
         if (picked_up)
         {
-            float h = bound.bounds.extents.y;
-            float r = bound.bounds.extents.x / 2;
-            display.localPosition = Player.instance.transform.position + Player.instance.transform.forward * r + new Vector3(0, h, 0);
+            float h = bound.size.y * display.localScale.y;
+            float r = bound.size.x * display.localScale.x;
+            print(Player.instance.dir);
+            Vector3 xy = Player.instance.transform.localPosition;
+            map_pos = new Vector2(xy.x, xy.z) + Player.instance.dir * r;
+            map_pos = CustomMaths.Clamp(map_pos, Vehicle.Instance.Board.size / 2);
+            display.localPosition = new Vector3(map_pos.x, h, map_pos.y);
+        } else
+        {
         }
     }
 

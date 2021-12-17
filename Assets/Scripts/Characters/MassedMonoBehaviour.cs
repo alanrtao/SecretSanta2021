@@ -9,9 +9,11 @@ public class MassedMonoBehaviour : MonoBehaviour
     public Vector2 xy { get { return map_pos; } }
     // 
 
+    protected Transform weight_transform;
+
     public Vector3 weight_contribution
     {
-        get { return (rb == null ? Vector3.zero : rb.mass * transform.localPosition); }
+        get { return rb == null ? Vector3.zero : rb.mass * weight_transform.localPosition; }
     }
 
     protected Rigidbody rb;
