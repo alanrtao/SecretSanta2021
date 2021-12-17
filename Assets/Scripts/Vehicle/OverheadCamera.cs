@@ -35,6 +35,11 @@ public class OverheadCamera : MonoBehaviour
 
     public Material post_processing_outline;
 
+    Camera cam;
+
+    [SerializeField] private GameObject picture;
+    [SerializeField] private Material picture_mat;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +52,8 @@ public class OverheadCamera : MonoBehaviour
         vc_to = -vcFollow.ShoulderOffset.normalized;
 
         rot_eq = transform.rotation;
+
+        cam = GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -102,8 +109,8 @@ public class OverheadCamera : MonoBehaviour
 
         Vector3 so = vcFollow.ShoulderOffset;
 
-        // middle mouse button signifies view adjustment
-        if (Input.GetMouseButton(2))
+        // right mouse button signifies view adjustment
+        if (Input.GetMouseButton(1))
         {
             Quaternion rotZ = Quaternion.AngleAxis(mouse.x, Vector3.up);
             Quaternion rotH = Quaternion.AngleAxis(mouse.y, Vector3.Cross(Vector3.up, so));
@@ -111,9 +118,14 @@ public class OverheadCamera : MonoBehaviour
             Vector3 rawSO = rotZ * rotH * so;
             rawSO.y = Mathf.Clamp(rawSO.y, 0.5f, float.PositiveInfinity); // prevent panty shot
             vcFollow.ShoulderOffset = rawSO;
-        } else
+        }
+        else
         {
-            // 
+            // when not adjusting view, camera is allowed
+            if (!picture.activeInHierarchy && Input.GetMouseButtonDown(0))
+            {
+                StartCoroutine(PrintPicture());
+            }
         }
 
         vc_to = -vcFollow.ShoulderOffset.normalized;
@@ -122,5 +134,53 @@ public class OverheadCamera : MonoBehaviour
         vc_offset_temp = Mathf.Lerp(vc_offset_eq, vc_offset_temp, vc_smoothness);
 
         vcFollow.ShoulderOffset = vc_offset_temp * -vc_to;
+    }
+
+    IEnumerator PrintPicture()
+    {
+        print("taking a picture...");
+        // capture picture
+        RenderTexture picture_rt = cam.targetTexture;
+
+        print(picture_rt.name);
+
+        RenderTexture stashed = RenderTexture.active;
+        RenderTexture.active = picture_rt;
+
+        Texture2D pic = new Texture2D(picture_rt.width, picture_rt.height);
+        pic.ReadPixels(new Rect(0, 0, pic.width, pic.height), 0, 0);
+        pic.Apply();
+
+        RenderTexture.active = stashed;
+
+        UnityEngine.UI.Image img = picture.GetComponent<UnityEngine.UI.Image>();
+        img.sprite = Sprite.Create(pic, new Rect(0, 0, pic.width, pic.height), Vector2.one * .5f);
+
+        float t = -1;
+        picture_mat.mainTexture = pic;
+
+        float f = 10;
+
+        picture.SetActive(true);
+        RectTransform rect = picture.transform as RectTransform;
+        Vector2 stg = rect.anchoredPosition;
+        picture_mat.SetVector("_root", new Vector2(Random.value * 10000, Random.value * 10000));
+        while (t < 0)
+        {
+            t += Mathf.PerlinNoise(Time.time * 1f, 0) * Time.fixedDeltaTime;
+            t = Mathf.Min(t, 0);
+            picture_mat.SetFloat("_t", t);
+
+            rect.anchoredPosition =
+                stg
+                + 7f * new Vector2(Mathf.PerlinNoise(0, Time.time * f), Mathf.PerlinNoise(Time.time * f, 0));
+
+            yield return null;
+        }
+        rect.anchoredPosition = stg;
+
+        yield return new WaitForSeconds(3);
+
+        picture.SetActive(false);
     }
 }

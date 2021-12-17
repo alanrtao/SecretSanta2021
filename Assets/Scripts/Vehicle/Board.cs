@@ -37,6 +37,7 @@ public class Board : MonoBehaviour
     [Range(0, 90), SerializeField] private float pitch_ext;
     [Range(0, 90), SerializeField] private float roll_ext;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,7 +73,7 @@ public class Board : MonoBehaviour
 
         transform.localRotation = rot_eq;
 
-        print(center_of_mass);
+        // print(center_of_mass);
         center_of_mass = CustomMaths.Lerp(center_of_mass, center_of_mass_eq, com_smoothness);
     }
 

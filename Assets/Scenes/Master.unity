@@ -5981,6 +5981,7 @@ RectTransform:
   m_Children:
   - {fileID: 681818485}
   - {fileID: 135977519}
+  - {fileID: 1942146944}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6651,6 +6652,8 @@ MonoBehaviour:
   sensitivity: 6.5
   cam_smoothness: 0
   post_processing_outline: {fileID: 2100000, guid: c4e92dbf12697da43a924112c9275f41, type: 2}
+  picture: {fileID: 1942146943}
+  picture_mat: {fileID: 2100000, guid: 68e2a8bdaa38504428e38d2d9a39e665, type: 2}
   t: 0
 --- !u!114 &1761822584
 MonoBehaviour:
@@ -6988,6 +6991,81 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1912921843}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1942146943
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1942146944}
+  - component: {fileID: 1942146946}
+  - component: {fileID: 1942146945}
+  m_Layer: 5
+  m_Name: Picture
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1942146944
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942146943}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 721013693}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 75, y: -75}
+  m_SizeDelta: {x: 544, y: 352}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1942146945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942146943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: 68e2a8bdaa38504428e38d2d9a39e665, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1942146946
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942146943}
+  m_CullTransparentMesh: 1
 --- !u!1 &2136339412
 GameObject:
   m_ObjectHideFlags: 0
@@ -7214,6 +7292,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3235477345632941217, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
+      propertyPath: picture
+      value: 
+      objectReference: {fileID: 1942146943}
+    - target: {fileID: 3235477345632941217, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
       propertyPath: trigger
       value: 
       objectReference: {fileID: 434913059}
@@ -7221,6 +7303,22 @@ PrefabInstance:
       propertyPath: UICanvas
       value: 
       objectReference: {fileID: 135977518}
+    - target: {fileID: 3235477345632941217, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
+      propertyPath: picture_rt
+      value: 
+      objectReference: {fileID: 8400000, guid: b42eb406c288d714e9ef5f9c6b13b617, type: 2}
+    - target: {fileID: 3235477345632941217, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
+      propertyPath: picture_mat
+      value: 
+      objectReference: {fileID: 2100000, guid: 68e2a8bdaa38504428e38d2d9a39e665, type: 2}
+    - target: {fileID: 5190833882078226362, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8216183618883132875, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
 --- !u!4 &3809017749856604932

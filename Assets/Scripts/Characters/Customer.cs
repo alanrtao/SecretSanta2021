@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -21,6 +21,8 @@ public class Customer : MassedMonoBehaviour
     [SerializeField] private NPCTrigger trigger;
 
     [SerializeField] private GameObject UICanvas;
+
+    [SerializeField] private GameObject picture;
 
     private void Awake()
     {
@@ -98,6 +100,8 @@ public class Customer : MassedMonoBehaviour
             }
         }
     }
+
+
 
     private void FixedUpdate()
     {
