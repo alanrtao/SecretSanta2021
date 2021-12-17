@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 [ExecuteAlways]
 public class Manager : MonoBehaviour
@@ -28,9 +28,6 @@ public class Manager : MonoBehaviour
 
     public MethodSlot PhotoShoot = () => { print("photoshoot"); };
 
-    [SerializeField] private Customer[] customers;
-    public Customer curr;
-
     private void Awake()
     {
         _instance = this;
@@ -48,7 +45,10 @@ public class Manager : MonoBehaviour
         
     }
 
-
+    public void GameEnd()
+    {
+        SceneManager.LoadScene(1); // go to game end screen
+    }
 
 }
 

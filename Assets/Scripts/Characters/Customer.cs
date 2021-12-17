@@ -4,14 +4,33 @@ using UnityEngine;
 
 public class Customer : MassedMonoBehaviour
 {
-    bool picked_up = false;
+    public bool picked_up = false;
 
-    CapsuleCollider bound;
+    BoxCollider bound;
+
+    Quest q;
+
+    [SerializeField] private Quest[] quests;
+    int idx = -1;
+
+    private void Awake()
+    {
+        idx = -1; // go to first customer when scene load
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        bound = GetComponent<CapsuleCollider>();
+        bound = GetComponent<BoxCollider>();
+    }
+
+    private void OnEnable()
+    {
+        idx++;
+        if (idx >= quests.Length) { Manager.Instance.GameEnd(); }
+        q = quests[idx];
+        transform.localPosition = new Vector3(0, 0, q.size.y);
+        bound.size = q.size;
     }
 
     // Update is called once per frame
@@ -21,10 +40,14 @@ public class Customer : MassedMonoBehaviour
         {
             picked_up = !picked_up;
         }
+    }
+
+    private void FixedUpdate()
+    {
         if (picked_up)
         {
             float h = bound.bounds.extents.y;
-            float r = bound.bounds.extents.x/2;
+            float r = bound.bounds.extents.x / 2;
             transform.localPosition = Player.instance.transform.position + Player.instance.transform.forward * r + new Vector3(0, h, 0);
         }
     }
@@ -35,6 +58,7 @@ public class Customer : MassedMonoBehaviour
         public Color outfit;
         public string display_name;
         public string prediag, postdiag;
+        public Vector3 size;
 
         // null is the criterion passing
         public System.Func<Customer, string> criterion { get { return criteria[id]; } }
@@ -157,19 +181,20 @@ public class Customer : MassedMonoBehaviour
                 return null;
             },
             (c)=>{
-                // checks for both characters in view
+                // checks for both characters in view, and the 
                 if (Manager.Instance.Globe.InScreen(
                         Manager.Instance.mCam.WorldToViewportPoint(Player.instance.transform.position)
                     ))
                 {
-                    return "Wait, you aren't in the shot!";
+                    return "[cries]";
                 }
                 if (Manager.Instance.Globe.InScreen(
                         Manager.Instance.mCam.WorldToViewportPoint(c.transform.position)
                     ))
                 {
-                    return "Don't leave me out!";
+                    return "Don't leave q-q";
                 }
+                if (!c.picked_up) return "[cries, she wants a hug]";
                 return null;
             }
         };

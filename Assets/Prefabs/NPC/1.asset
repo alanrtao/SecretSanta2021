@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: 1
   m_EditorClassIdentifier: Assembly-CSharp::Customer/Quest
-  outfit: {fileID: 0}
-  name: 
-  text: 
+  outfit: {r: 0, g: 0, b: 0, a: 0}
+  display_name: Bobu
+  prediag: 
+  postdiag: 
+  size: {x: 0, y: 0, z: 0}
