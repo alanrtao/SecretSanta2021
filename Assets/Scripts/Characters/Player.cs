@@ -38,10 +38,12 @@ public class Player : MassedMonoBehaviour
     {
         float dt = Time.fixedDeltaTime;
 
-        // move towards target
-        float tDist = (map_pos - target).magnitude;
-        float step = Mathf.Min(tDist, dt * velocity);
-        map_pos += new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * velocity;
+        Vector2 axis = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if (axis.magnitude > 1)
+        {
+            axis = axis.normalized;
+        }
+        map_pos += axis * dt * velocity;
         map_pos = CustomMaths.Clamp(map_pos, Vehicle.Instance.Board.size/2);
 
         transform.localPosition = new Vector3(map_pos.x, bc.size.y / 2, map_pos.y);

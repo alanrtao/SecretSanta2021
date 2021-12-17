@@ -4,18 +4,29 @@ using UnityEngine;
 
 public class Customer : MassedMonoBehaviour
 {
-    
+    bool picked_up = false;
+
+    CapsuleCollider bound;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        bound = GetComponent<CapsuleCollider>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.E) && (transform.position - Player.instance.transform.position).magnitude < 1)
+        {
+            picked_up = !picked_up;
+        }
+        if (picked_up)
+        {
+            float h = bound.bounds.extents.y;
+            float r = bound.bounds.extents.x/2;
+            transform.localPosition = Player.instance.transform.position + Player.instance.transform.forward * r + new Vector3(0, h, 0);
+        }
     }
 
     [CreateAssetMenu(fileName = "Quest", menuName = "Custom/Quest")]
