@@ -16,7 +16,7 @@ public class Customer : MassedMonoBehaviour
 
     [SerializeField] private TextMeshProUGUI text;
 
-    [SerializeField] private Transform display;
+    [SerializeField] private Transform center, display;
 
     [SerializeField] private NPCTrigger trigger;
 
@@ -56,10 +56,11 @@ public class Customer : MassedMonoBehaviour
         if (bound != null) Destroy(bound);
 
         Vector2 valid_point = Vehicle.Instance.Board.GetValidPoint();
-        display.localPosition = new Vector3(valid_point.x, q.size.y, valid_point.y);
-        display.localScale = new Vector3(q.size.x, q.size.x, q.size.x);
 
-        bound = gameObject.AddComponent<BoxCollider>();
+        bound = center.gameObject.AddComponent<BoxCollider>();
+
+        center.localScale = new Vector3(q.size.x, q.size.x, q.size.x);
+        center.localPosition = new Vector3(valid_point.x, bound.size.y * center.localScale.y / 2, valid_point.y);
 
         // update trigger position to random sphere point
         float phi = Random.value * 2 * Mathf.PI;
@@ -72,7 +73,7 @@ public class Customer : MassedMonoBehaviour
             r * Mathf.Sin(theta)
             );
 
-        weight_transform = display;
+        weight_transform = center;
         rb = GetComponent<Rigidbody>();
         rb.mass = q.size.x / .3f;
     }
@@ -85,13 +86,13 @@ public class Customer : MassedMonoBehaviour
             if(picked_up) {
                 picked_up = false;
 
-                Vector3 t = display.localPosition;
-                t.y = bound.size.y * display.localScale.y / 2;
-                display.localPosition = t;
+                Vector3 t = center.localPosition;
+                t.y = bound.size.y * center.localScale.y / 2;
+                center.localPosition = t;
             }
             else
             {
-                if ((display.position - Player.instance.transform.position).magnitude < 1) {
+                if ((center.position - Player.instance.transform.position).magnitude < 1) {
                     picked_up = true;
                 }
             }
@@ -102,13 +103,17 @@ public class Customer : MassedMonoBehaviour
     {
         if (picked_up)
         {
-            float h = bound.size.y * display.localScale.y;
-            float r = bound.size.x * display.localScale.x;
-            print(Player.instance.dir);
+            float h = bound.size.y * center.localScale.y;
+            float r = bound.size.x * center.localScale.x;
+
+            float theta = Mathf.PerlinNoise(0, 10 * Time.time);
+            Vector3 wiggle = new Vector3(Mathf.Sin(theta), Mathf.Cos(theta)) * Mathf.PerlinNoise(10 * Time.time, 0) * .2f / display.localScale.x;
+
             Vector3 xy = Player.instance.transform.localPosition;
             map_pos = new Vector2(xy.x, xy.z) + Player.instance.dir * r;
             map_pos = CustomMaths.Clamp(map_pos, Vehicle.Instance.Board.size / 2);
-            display.localPosition = new Vector3(map_pos.x, h, map_pos.y);
+            center.localPosition = new Vector3(map_pos.x, h, map_pos.y);
+            display.localPosition = wiggle;
         } else
         {
         }

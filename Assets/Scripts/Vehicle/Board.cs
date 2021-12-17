@@ -70,8 +70,9 @@ public class Board : MonoBehaviour
             - roll_ext * center_of_mass.x // roll
             );
 
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, rot_eq, rotation_smoothness);
+        transform.localRotation = rot_eq;
 
+        print(center_of_mass);
         center_of_mass = CustomMaths.Lerp(center_of_mass, center_of_mass_eq, com_smoothness);
     }
 

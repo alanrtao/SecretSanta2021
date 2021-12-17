@@ -6191,16 +6191,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 795845685}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1087833419 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5650091532947967621, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
-  m_PrefabInstance: {fileID: 3235477345156587842}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1087833420 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 7775601572954400779, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
-  m_PrefabInstance: {fileID: 3235477345156587842}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1387680690
 GameObject:
   m_ObjectHideFlags: 3
@@ -6345,38 +6335,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1501670268 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3235477345632941212, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
-  m_PrefabInstance: {fileID: 3235477345156587842}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1501670269 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3235477345632941217, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
   m_PrefabInstance: {fileID: 3235477345156587842}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1501670268}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6e0447db43ded84aa2b1cdcb9a76c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &1501670270
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1501670268}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &1550439370
 GameObject:
   m_ObjectHideFlags: 0
@@ -7070,10 +7039,10 @@ MonoBehaviour:
   display: {fileID: 795845686}
   raycastCamera: {fileID: 1761822578}
   masses: []
-  com_smoothness: 0.95
+  com_smoothness: 0.99999
   pitch_ext: 10.3
   roll_ext: 39
-  rotation_smoothness: 0.95
+  rotation_smoothness: 1
 --- !u!4 &48976527511079009
 Transform:
   m_ObjectHideFlags: 0
@@ -7192,17 +7161,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2136339416}
     m_Modifications:
-    - target: {fileID: 1659224740107066911, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
+    - target: {fileID: 2732076956373489734, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 37c4a4abcf9fbf748904dae2596928b4, type: 2}
     - target: {fileID: 3235477345632941212, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
       propertyPath: m_Name
       value: NPC
-      objectReference: {fileID: 0}
-    - target: {fileID: 3235477345632941212, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3235477345632941213, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
       propertyPath: m_RootOrder
@@ -7249,14 +7214,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3235477345632941217, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
-      propertyPath: bound
-      value: 
-      objectReference: {fileID: 1087833420}
-    - target: {fileID: 3235477345632941217, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
-      propertyPath: display
-      value: 
-      objectReference: {fileID: 1087833419}
-    - target: {fileID: 3235477345632941217, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
       propertyPath: trigger
       value: 
       objectReference: {fileID: 434913059}
@@ -7264,10 +7221,6 @@ PrefabInstance:
       propertyPath: UICanvas
       value: 
       objectReference: {fileID: 135977518}
-    - target: {fileID: 3235477345632941217, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
-      propertyPath: position_smoothness
-      value: 0.358
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97d8fc807dad0b3459dc583e7ac58e7a, type: 3}
 --- !u!4 &3809017749856604932
