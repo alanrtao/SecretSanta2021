@@ -55,7 +55,8 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        amb.setVolume(amb_level / (Player.instance.transform.position.magnitude - Globe.Radius + 1));
+        if (Player.instance != null)
+            amb.setVolume(amb_level / (Player.instance.transform.position.magnitude - Globe.Radius + 1));
     }
 
     public void GameEnd()

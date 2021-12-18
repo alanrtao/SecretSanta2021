@@ -56,9 +56,8 @@ public class Quest : ScriptableObject
                     through++;
                 }
             }
-            if (through > 0 && not_through > 0 && through/not_through >= 0.2f && through/not_through <= 0.8f) return null;
-            if (not_through == 0 || through/not_through < 0.2f) { return "You're going way too far on this...\nI want to see the horizon, not the whole planet!"; }
-            return "Uhh... we're basically still on the ground, aren't we?";
+            if (through > 8 && not_through > 8) return null;
+            return "That's... not quite it.";
         },
         (_)=>{
             // checks for being dawn/dusk
@@ -85,7 +84,7 @@ public class Quest : ScriptableObject
         },
         (_)=>{
             // checks for above clouds
-            if (Vehicle.Instance.transform.position.magnitude > Manager.Instance.Globe.Radius * 3.51f) return null;
+            if (Vehicle.Instance.transform.position.magnitude > Manager.Instance.Globe.Radius * 1.51f) return null;
             else
             {
                 return "Higher!";

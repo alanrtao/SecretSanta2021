@@ -136,6 +136,7 @@ public class OverheadCamera : MonoBehaviour
         vcFollow.ShoulderOffset = vc_offset_temp * -vc_to;
     }
 
+    public FMODUnity.EventReference polaroid;
     IEnumerator PrintPicture()
     {
         Customer.Instance.CheckCriterion();
@@ -160,7 +161,13 @@ public class OverheadCamera : MonoBehaviour
 
         float f = 10;
 
+        FMOD.Studio.EventInstance polaroid_inst = FMODUnity.RuntimeManager.CreateInstance(polaroid);
+        polaroid_inst.start();
+        yield return new WaitForSeconds(0.2f);
+
         picture.SetActive(true);
+        bool polaroid_playing = true;
+
         RectTransform rect = picture.transform as RectTransform;
         Vector2 stg = rect.anchoredPosition;
         picture_mat.SetVector("_root", new Vector2(Random.value * 10000, Random.value * 10000));
@@ -174,6 +181,12 @@ public class OverheadCamera : MonoBehaviour
             rect.anchoredPosition =
                 stg
                 + 7f * new Vector2(Mathf.PerlinNoise(0, Time.time * f), Mathf.PerlinNoise(Time.time * f, 0));
+
+            if (t > -0.2f && polaroid_playing)
+            {
+                polaroid_playing = false;
+                polaroid_inst.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            }
 
             yield return null;
         }

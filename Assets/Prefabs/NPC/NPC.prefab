@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8774031627788307336}
   - component: {fileID: 7516144793581032820}
   - component: {fileID: 5126208030346798421}
-  - component: {fileID: -5532862620776102729}
   m_Layer: 0
   m_Name: UICam
   m_TagString: Untagged
@@ -108,20 +107,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &-5532862620776102729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 137352384634182257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attenuationObject: {fileID: 0}
-  ListenerNumber: -1
 --- !u!1 &3235477345632941212
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +172,7 @@ MonoBehaviour:
   trigger: {fileID: 0}
   UICanvas: {fileID: 0}
   picture: {fileID: 0}
-  npc_mat: {fileID: 0}
+  npc_mat: {fileID: 2100000, guid: 37c4a4abcf9fbf748904dae2596928b4, type: 2}
 --- !u!54 &1501670270
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -499,7 +484,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 37c4a4abcf9fbf748904dae2596928b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
