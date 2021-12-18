@@ -39,17 +39,21 @@ public class Collage : MonoBehaviour
     [SerializeField] private GameObject picture_prototype;
     IEnumerator DisplayCollage()
     {
-        GameObject go = GameObject.Find("Canvas");
+        GameObject go = GameObject.Find("Collage Canvas");
+
         foreach(Texture2D p in pictures)
         {
-            GameObject obj = GameObject.Instantiate(picture_prototype);
+            print(p);
+
+            GameObject obj = Instantiate(picture_prototype, go.transform);
             RectTransform rect = obj.transform as RectTransform;
-            rect.anchoredPosition = new Vector3(Random.value * 400 + 200, Random.value * 400 + 100, 0);
-            rect.localRotation = Quaternion.Euler(0, 0, Random.value * 30 - 15);
+            rect.anchoredPosition = new Vector3(Random.value * 600 - 300, Random.value * 400 - 200, 0);
+            rect.localRotation = Quaternion.Euler(0, 0, Random.value * 60 - 30);
 
             UnityEngine.UI.Image img = obj.GetComponent<UnityEngine.UI.Image>();
-            Color tint = Color.HSVToRGB(Random.value, 0.1f, 0.9f);
-            img.color = tint;
+            img.sprite = Sprite.Create(p, new Rect(0, 0, p.width, p.height), Vector2.one * .5f);
+            // Color tint = Color.HSVToRGB(Random.value, 0.5f, 0.9f);
+            // img.material.SetColor("_Tint", tint);
             img.material.SetFloat("_t", 0);
 
             yield return new WaitForSeconds(0.5f);
@@ -59,6 +63,6 @@ public class Collage : MonoBehaviour
 
     void DisplayUI()
     {
-        GameObject.Find("Panel").SetActive(true);
+        GameObject.Find("Canvas").transform.GetChild(0).gameObject.SetActive(true);
     }
 }

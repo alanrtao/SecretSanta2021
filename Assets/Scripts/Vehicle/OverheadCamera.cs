@@ -122,7 +122,7 @@ public class OverheadCamera : MonoBehaviour
         else
         {
             // when not adjusting view, camera is allowed
-            if (!picture.activeInHierarchy && Input.GetMouseButtonDown(0))
+            if (picture != null && !picture.activeInHierarchy && Input.GetMouseButtonDown(0))
             {
                 StartCoroutine(PrintPicture());
             }
@@ -140,6 +140,8 @@ public class OverheadCamera : MonoBehaviour
     IEnumerator PrintPicture()
     {
 
+        Customer.Instance.CheckCriterion();
+
         print("taking a picture...");
         // capture picture
         RenderTexture picture_rt = cam.targetTexture;
@@ -149,6 +151,7 @@ public class OverheadCamera : MonoBehaviour
         Texture2D pic = new Texture2D(picture_rt.width, picture_rt.height);
         pic.ReadPixels(new Rect(0, 0, pic.width, pic.height), 0, 0);
         pic.Apply();
+        Collage.Instance.AddPicture(pic);
 
         RenderTexture.active = stashed;
 
@@ -170,6 +173,7 @@ public class OverheadCamera : MonoBehaviour
         RectTransform rect = picture.transform as RectTransform;
         Vector2 stg = rect.anchoredPosition;
         picture_mat.SetVector("_root", new Vector2(Random.value * 10000, Random.value * 10000));
+        picture_mat.SetColor("_Tint", Color.white);
 
         while (t < 0)
         {
@@ -193,9 +197,7 @@ public class OverheadCamera : MonoBehaviour
 
         yield return new WaitForSeconds(3);
 
-        Collage.Instance.AddPicture(pic);
-
-        Customer.Instance.CheckCriterion();
+        Customer.Instance.EvaluateCriterion();
 
         picture.SetActive(false);
     }

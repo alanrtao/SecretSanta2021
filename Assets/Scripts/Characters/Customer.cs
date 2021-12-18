@@ -26,7 +26,7 @@ public class Customer : MassedMonoBehaviour
 
     [SerializeField] private Material npc_mat;
 
-    [SerializeField] private FMODUnity.EventReference success, failure;
+    [SerializeField] private FMODUnity.EventReference success; //, failure;
 
     System.Func<Customer, string> crit;
 
@@ -59,7 +59,7 @@ public class Customer : MassedMonoBehaviour
         UICanvas.SetActive(false);
         Vehicle.Instance.Board.masses.RemoveAll((m) => (m == this));
         trigger.gameObject.SetActive(true);
-        trigger.transform.position = Player.instance.transform.position;
+        // trigger.transform.position = Player.instance.transform.position;
     }
 
     void Init()
@@ -116,17 +116,23 @@ public class Customer : MassedMonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Q)) gameObject.SetActive(false);
+        // if (Input.GetKeyDown(KeyCode.Q)) gameObject.SetActive(false);
     }
 
+    string err = null;
     public void CheckCriterion()
     {
-        string err = crit(this);
+        err = crit(this);
+    }
+
+    public void EvaluateCriterion()
+    {
         if (err == null)
         {
             FMODUnity.RuntimeManager.PlayOneShot(success);
             gameObject.SetActive(false);
-        } else
+        }
+        else
         {
             // FMODUnity.RuntimeManager.PlayOneShot(failure);
             StartCoroutine(TemporaryReplaceText(err));
