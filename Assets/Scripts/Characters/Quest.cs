@@ -117,19 +117,19 @@ public class Quest : ScriptableObject
         },
         (c)=>{
             // checks for both characters in view, and the 
-            if (Manager.Instance.Globe.InScreen(
+            if (!Manager.Instance.Globe.InScreen(
                     Manager.Instance.mCam.WorldToViewportPoint(Player.instance.transform.position)
                 ))
             {
-                return "[cries]";
+                return "The baby keeps crying...";
             }
-            if (Manager.Instance.Globe.InScreen(
+            if (!Manager.Instance.Globe.InScreen(
                     Manager.Instance.mCam.WorldToViewportPoint(c.transform.position)
                 ))
             {
                 return "Don't leave q-q";
             }
-            if (!c.picked_up) return "[cries, she wants a hug]";
+            if (!c.picked_up) return "It wants a hug...";
             return null;
         }
     };

@@ -26,6 +26,8 @@ public class Customer : MassedMonoBehaviour
 
     [SerializeField] private Material npc_mat;
 
+    [SerializeField] private FMODUnity.EventReference success, failure;
+
     System.Func<Customer, string> crit;
 
     public static Customer Instance;
@@ -86,7 +88,7 @@ public class Customer : MassedMonoBehaviour
 
         weight_transform = center;
         rb = GetComponent<Rigidbody>();
-        rb.mass = q.size.x * q.size.y * q.size.z / .3f / .3f / .3f;
+        rb.mass = 0.1f * q.size.x * q.size.y * q.size.z / .3f / .3f / .3f;
 
         crit = q.criterion.Item2;
         text.text = q.criterion.Item1;
@@ -113,6 +115,8 @@ public class Customer : MassedMonoBehaviour
                 }
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Q)) gameObject.SetActive(false);
     }
 
     public void CheckCriterion()
@@ -120,9 +124,11 @@ public class Customer : MassedMonoBehaviour
         string err = crit(this);
         if (err == null)
         {
+            FMODUnity.RuntimeManager.PlayOneShot(success);
             gameObject.SetActive(false);
         } else
         {
+            // FMODUnity.RuntimeManager.PlayOneShot(failure);
             StartCoroutine(TemporaryReplaceText(err));
         }
     }

@@ -49,5 +49,5 @@ Material:
     - _t: 0
     m_Colors:
     - _Tint: {r: 1, g: 0.75971824, b: 0.33490568, a: 0}
-    - _root: {r: 4794.511, g: 4783.6846, b: 0, a: 0}
+    - _root: {r: 2490.5684, g: 3683.6592, b: 0, a: 0}
   m_BuildTextureStacks: []

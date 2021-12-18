@@ -139,7 +139,6 @@ public class OverheadCamera : MonoBehaviour
     public FMODUnity.EventReference polaroid;
     IEnumerator PrintPicture()
     {
-        Customer.Instance.CheckCriterion();
 
         print("taking a picture...");
         // capture picture
@@ -193,6 +192,10 @@ public class OverheadCamera : MonoBehaviour
         rect.anchoredPosition = stg;
 
         yield return new WaitForSeconds(3);
+
+        Collage.Instance.AddPicture(pic);
+
+        Customer.Instance.CheckCriterion();
 
         picture.SetActive(false);
     }
