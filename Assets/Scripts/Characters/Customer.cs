@@ -57,6 +57,7 @@ public class Customer : MassedMonoBehaviour
         UICanvas.SetActive(false);
         Vehicle.Instance.Board.masses.RemoveAll((m) => (m == this));
         trigger.gameObject.SetActive(true);
+        trigger.transform.position = Player.instance.transform.position;
     }
 
     void Init()

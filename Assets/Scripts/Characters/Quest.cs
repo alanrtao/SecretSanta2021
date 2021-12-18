@@ -18,7 +18,7 @@ public class Quest : ScriptableObject
         "This person likes to gaze far ahead. A picture with the horizon would be preferable.",
         "Early worm or late worm? Get a view of the dawn... or dusk",
         "Trees bore this person. Please take a picture with NO trees",
-        "Higher! Above the clouds!",
+        "Higher! Get a picture above the clouds!",
         "Dude really likes trees. Get a picture with a LOT of trees",
         "This highly prestiged individual wants a picture of the whole planet",
         "The baby cries. You don't want it to keep crying, don't you?"
@@ -33,28 +33,31 @@ public class Quest : ScriptableObject
             // checks if horizon is in view
             for (float i = 0; i <=1; i += 0.1f)
             {
-                samples.Add(Manager.Instance.mCam.ScreenPointToRay(new Vector3(i, 0)));
-                samples.Add(Manager.Instance.mCam.ScreenPointToRay(new Vector3(i, 1)));
-                samples.Add(Manager.Instance.mCam.ScreenPointToRay(new Vector3(0, i)));
-                samples.Add(Manager.Instance.mCam.ScreenPointToRay(new Vector3(1, i)));
+                samples.Add(Manager.Instance.mCam.ViewportPointToRay(new Vector3(i, 0, 0)));
+                samples.Add(Manager.Instance.mCam.ViewportPointToRay(new Vector3(i, 1, 0)));
+                samples.Add(Manager.Instance.mCam.ViewportPointToRay(new Vector3(0, i, 0)));
+                samples.Add(Manager.Instance.mCam.ViewportPointToRay(new Vector3(1, i, 0)));
             }
 
-            bool through = false, not_through = false; // there must be a diversity of rays that are either through or not through on the border
+            float through = 0, not_through = 0; // there must be a diversity of rays that are either through or not through on the border
             // if all of them are through, then the photoshoot is too far
             // if none of them are going through, then the shoot is too close
             RaycastHit rh; // placeholder
             foreach (Ray r in samples)
             {
-                if (Manager.Instance.Globe.bound.Raycast(r, out rh, 1000f))
+                
+                if (Manager.Instance.Globe.bound.Raycast(r, out rh, float.PositiveInfinity))
                 {
-                    through = true;
+                    Debug.DrawRay(r.origin, 10000 * r.direction, Color.red, 10f);
+                    not_through++;
                 } else
                 {
-                    not_through = true;
+                    Debug.DrawRay(r.origin, 10000 * r.direction, Color.blue, 10f);
+                    through++;
                 }
             }
-            if (through & not_through) return null;
-            if (through) { return "You're going way too far on this...\nI want to see the horizon, not the whole planet!"; }
+            if (through > 0 && not_through > 0 && through/not_through >= 0.2f && through/not_through <= 0.8f) return null;
+            if (not_through == 0 || through/not_through < 0.2f) { return "You're going way too far on this...\nI want to see the horizon, not the whole planet!"; }
             return "Uhh... we're basically still on the ground, aren't we?";
         },
         (_)=>{

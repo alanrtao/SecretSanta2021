@@ -143,9 +143,6 @@ public class OverheadCamera : MonoBehaviour
         print("taking a picture...");
         // capture picture
         RenderTexture picture_rt = cam.targetTexture;
-
-        print(picture_rt.name);
-
         RenderTexture stashed = RenderTexture.active;
         RenderTexture.active = picture_rt;
 

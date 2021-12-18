@@ -59,7 +59,7 @@ public class Player : MassedMonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Manager.Instance.Globe.Achievement(transform.position);
+            // Manager.Instance.Globe.Achievement(transform.position);
         }
         // rClick or rDrag
         /*if (Input.GetMouseButton(1) || Input.GetMouseButtonDown(1))

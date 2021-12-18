@@ -28,6 +28,12 @@ public class Manager : MonoBehaviour
 
     public MethodSlot PhotoShoot = () => { print("photoshoot"); };
 
+    [SerializeField]
+    private FMODUnity.EventReference ambient;
+    private FMOD.Studio.EventInstance amb;
+    [Range(0, 10), SerializeField]
+    private float amb_level;
+
     private void Awake()
     {
         _instance = this;
@@ -36,13 +42,20 @@ public class Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        amb = FMODUnity.RuntimeManager.CreateInstance(ambient);
+        amb.start();
+    }
 
+    private void OnDestroy()
+    {
+        if (amb.isValid())
+            amb.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        amb.setVolume(amb_level / (Player.instance.transform.position.magnitude - Globe.Radius + 1));
     }
 
     public void GameEnd()
